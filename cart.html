@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🛒 ตะกร้าสินค้า</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+background:#0b1118;
+color:white;
+padding:30px;
+}
+
+h1{
+text-align:center;
+margin-bottom:30px;
+color:#6CFF8F;
+}
+
+.cart-container{
+max-width:1200px;
+margin:auto;
+}
+
+.cart-item{
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.1);
+border-radius:20px;
+padding:20px;
+margin-bottom:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.cart-item:hover{
+box-shadow:0 0 20px rgba(108,255,143,0.2);
+}
+
+.item-info h3{
+color:#6CFF8F;
+margin-bottom:10px;
+}
+
+.item-info p{
+margin:5px 0;
+}
+
+.delete-btn{
+background:#ff4d4d;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.delete-btn:hover{
+background:#ff2222;
+}
+
+.total-box{
+background:#111827;
+padding:25px;
+border-radius:20px;
+text-align:center;
+font-size:24px;
+font-weight:bold;
+color:#6CFF8F;
+margin-top:30px;
+}
+
+.btn{
+display:inline-block;
+padding:14px 30px;
+border-radius:12px;
+text-decoration:none;
+font-weight:600;
+margin-top:20px;
+margin-right:10px;
+cursor:pointer;
+border:none;
+}
+
+.back-btn{
+background:#6CFF8F;
+color:black;
+}
+
+.clear-btn{
+background:#ff4d4d;
+color:white;
+}
+
+.empty{
+text-align:center;
+font-size:22px;
+color:#94a3b8;
+margin-top:50px;
+}
+
+.buttons{
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🛒 ตะกร้าสินค้า</h1>
+
+<div class="cart-container">
+
+<div id="cartItems"></div>
+
+<div class="total-box" id="total">
+ยอดรวมทั้งหมด : 0 บาท
+</div>
+
+<div class="buttons">
+
+<a href="shop.html" class="btn back-btn">
+← กลับไปร้านค้า
+</a>
+
+<button class="btn clear-btn" onclick="clearCart()">
+🗑 ล้างตะกร้า
+</button>
+<a href="checkout.html"
+class="btn back-btn">
+
+📦 ดำเนินการสั่งซื้อ
+
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+let cart =
+JSON.parse(
+localStorage.getItem("cart")
+) || [];
+
+function renderCart(){
+
+const cartItems =
+document.getElementById("cartItems");
+
+const totalBox =
+document.getElementById("total");
+
+cartItems.innerHTML = "";
+
+let total = 0;
+
+if(cart.length === 0){
+
+cartItems.innerHTML = `
+<div class="empty">
+ไม่มีสินค้าในตะกร้า
+</div>
+`;
+
+totalBox.innerHTML =
+"ยอดรวมทั้งหมด : 0 บาท";
+
+return;
+}
+
+cart.forEach((item,index)=>{
+
+const subtotal =
+item.price * item.qty;
+
+total += subtotal;
+
+cartItems.innerHTML += `
+
+<div class="cart-item">
+
+<div class="item-info">
+
+<h3>${item.name}</h3>
+
+<p>ราคา : ${item.price} บาท</p>
+
+<p>จำนวน : ${item.qty}</p>
+
+<p>รวม : ${subtotal} บาท</p>
+
+</div>
+
+<button
+class="delete-btn"
+onclick="removeItem(${index})">
+
+❌ ลบสินค้า
+
+</button>
+
+</div>
+
+`;
+
+});
+
+totalBox.innerHTML =
+"ยอดรวมทั้งหมด : " +
+total.toLocaleString() +
+" บาท";
+
+}
+
+function removeItem(index){
+
+cart.splice(index,1);
+
+localStorage.setItem(
+"cart",
+JSON.stringify(cart)
+);
+
+renderCart();
+
+}
+
+function clearCart(){
+
+if(confirm("ต้องการล้างตะกร้าทั้งหมดหรือไม่?")){
+
+cart = [];
+
+localStorage.setItem(
+"cart",
+JSON.stringify(cart)
+);
+
+renderCart();
+
+}
+
+}
+
+renderCart();
+
+</script>
+<script>
+async function checkLogin(){
+
+ const {
+  data:{user}
+ } =
+ await supabaseClient.auth.getUser();
+
+ if(!user){
+
+   window.location.href =
+   "login.html";
+
+ }
+
+}
+
+checkLogin();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Register - Thai Green Compliance</title>
+  <style>
+    body {
+      font-family: "Prompt", sans-serif;
+      background: #f0f8f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .register-box {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 350px;
+    }
+    .register-box h2 {
+      text-align: center;
+      color: #2e7d32;
+      margin-bottom: 20px;
+    }
+    .register-box label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #333;
+    }
+    .register-box input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      transition: border-color 0.3s;
+    }
+    .register-box input:focus {
+      border-color: #2e7d32;
+      outline: none;
+    }
+    .register-box button {
+      width: 100%;
+      padding: 12px;
+      background: #2e7d32;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .register-box button:hover {
+      background: #1b5e20;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-box">
+    <form id="registerForm">
+    <h2>สมัครสมาชิก</h2>
+    <label for="fullname">Fullname (ชื่อ-นามสกุล)</label>
+    <input type="text" id="fullname" placeholder="กรอกชื่อ-นามสกุล">
+    <label for="email">Email</label>
+    <input type="email" id="email" placeholder="กรอกอีเมล">
+    <label for="password">Password</label>
+    <input type="password" id="password" placeholder="กรอกรหัสผ่าน">
+    <label for="confirm-password">Confirm Password</label>
+    <input type="password" id="confirm-password" placeholder="ยืนยันรหัสผ่าน">
+    <button type="submit">Register</button>
+
+</form>
+    
+
+    <label for="email">
+        <p class="mt-3">
+            มีบัญชีอยู่แล้ว ?
+        <a href="store.html">เข้าสู่ระบบ</a>
+        </p>
+    </label>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="supabase.js"></script>
+
+    <script src="register.js"></script>
+</body>
+</html>

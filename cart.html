@@ -139,12 +139,13 @@ text-align:center;
 <button class="btn clear-btn" onclick="clearCart()">
 🗑 ล้างตะกร้า
 </button>
-<a href="checkout.html"
-class="btn back-btn">
+<button
+class="btn back-btn"
+onclick="goCheckout()">
 
 📦 ดำเนินการสั่งซื้อ
 
-</a>
+</button>
 
 </div>
 
@@ -153,9 +154,26 @@ class="btn back-btn">
 <script>
 
 let cart =
-JSON.parse(
-localStorage.getItem("cart")
-) || [];
+JSON.parse(localStorage.getItem("cart")) || [];
+
+function goCheckout(){
+
+const cart =
+JSON.parse(localStorage.getItem("cart")) || [];
+
+if(cart.length === 0){
+
+alert(
+"กรุณาเพิ่มสินค้าลงตะกร้าก่อน\nPlease add products to your cart first."
+);
+
+return;
+}
+
+window.location.href =
+"checkout.html";
+
+}
 
 function renderCart(){
 
@@ -165,9 +183,8 @@ document.getElementById("cartItems");
 const totalBox =
 document.getElementById("total");
 
-cartItems.innerHTML = "";
-
-let total = 0;
+cart =
+JSON.parse(localStorage.getItem("cart")) || [];
 
 if(cart.length === 0){
 
@@ -181,7 +198,12 @@ totalBox.innerHTML =
 "ยอดรวมทั้งหมด : 0 บาท";
 
 return;
+
 }
+
+cartItems.innerHTML = "";
+
+let total = 0;
 
 cart.forEach((item,index)=>{
 
@@ -259,25 +281,6 @@ renderCart();
 
 renderCart();
 
-</script>
-<script>
-async function checkLogin(){
-
- const {
-  data:{user}
- } =
- await supabaseClient.auth.getUser();
-
- if(!user){
-
-   window.location.href =
-   "login.html";
-
- }
-
-}
-
-checkLogin();
 </script>
 
 </body>

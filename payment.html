@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+<meta charset="UTF-8">
+<title>Payment</title>
+
+<style>
+body{
+    background:#0b1118;
+    color:white;
+    font-family:Poppins,sans-serif;
+    text-align:center;
+    padding:40px;
+}
+
+.timer{
+    font-size:40px;
+    color:#6CFF8F;
+}
+
+button{
+    padding:15px 25px;
+    margin-top:20px;
+    cursor:pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>💳 ชำระเงิน</h1>
+
+<div id="paymentInfo"></div>
+
+<h2 class="timer" id="timer">15:00</h2>
+
+<img src="qr.png" width="300">
+
+<br>
+
+<button onclick="paymentSuccess()">
+✅ จำลองชำระเงินสำเร็จ
+</button>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+<script>
+
+const orderData = JSON.parse(localStorage.getItem("checkoutData"));
+
+if(!orderData){
+    window.location.href = "shop.html";
+}
+
+// ===============================
+// แปลง products -> ข้อความสรุป
+// ===============================
+function formatProducts(products){
+    return products
+        .map(item => `สินค้า ${item.id} ${item.qty} ชิ้น`)
+        .join(", ");
+}
+
+document.getElementById("paymentInfo").innerHTML = `
+    <h3>ยอดชำระ : ${orderData.total_price} บาท</h3>
+    <p>รายการสินค้า : ${formatProducts(orderData.products)}</p>
+`;
+
+
+// ===============================
+// TIMER
+// ===============================
+let timeLeft = 15 * 60;
+const timer = document.getElementById("timer");
+
+const countdown = setInterval(() => {
+
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+
+    timer.innerHTML = `${minutes}:${seconds.toString().padStart(2,"0")}`;
+
+    timeLeft--;
+
+    if(timeLeft < 0){
+        clearInterval(countdown);
+        localStorage.removeItem("pendingOrder");
+        alert("หมดเวลาชำระเงิน");
+        window.location.href = "shop.html";
+    }
+
+}, 1000);
+
+
+// ===============================
+// PAYMENT SUCCESS
+// ===============================
+async function paymentSuccess(){
+
+    const productsText = formatProducts(orderData.products);
+
+    const { error } = await supabaseClient
+    .from("orders")
+    .insert([{
+        user_email: orderData.user_email,
+        receiver_name: orderData.receiver_name,
+        receiver_phone: orderData.receiver_phone,
+        receiver_address: orderData.receiver_address,
+
+        // 🔥 เปลี่ยนตรงนี้จาก JSON -> ข้อความ
+        products: productsText,
+
+        total_price: orderData.total_price,
+        payment_status: "paid",
+        order_status: "processing"
+    }]);
+
+    if(error){
+        console.error(error);
+        alert(JSON.stringify(error));
+        return;
+    }
+
+    localStorage.removeItem("cart");
+    localStorage.removeItem("checkoutData");
+
+    alert("ชำระเงินสำเร็จ");
+    window.location.href = "shop.html";
+}
+
+</script>
+
+</body>
+</html>

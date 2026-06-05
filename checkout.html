@@ -1,11 +1,259 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout</title>
+
+<style>
+
+body{
+font-family:Poppins,sans-serif;
+background:#0b1118;
+color:white;
+padding:30px;
+}
+
+h1{
+color:#6CFF8F;
+}
+
+.checkout-box{
+max-width:800px;
+margin:auto;
+}
+
+.order-item{
+background:rgba(255,255,255,0.05);
+padding:15px;
+margin-bottom:10px;
+border-radius:10px;
+}
+
+input,
+textarea{
+width:100%;
+padding:12px;
+margin-top:10px;
+margin-bottom:15px;
+border:none;
+border-radius:8px;
+}
+
+button{
+padding:14px 25px;
+background:#6CFF8F;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+}
+
+button:hover{
+opacity:.9;
+}
+
+.total{
+font-size:22px;
+font-weight:bold;
+color:#6CFF8F;
+margin-top:20px;
+}
+
+</style>
+
 </head>
+
 <body>
-    
+
+<div class="checkout-box">
+
+<h1>📦 สรุปรายการสินค้า</h1>
+
+<div id="orderList"></div>
+
+<div class="total" id="totalPrice">
+ยอดรวม : 0 บาท
+</div>
+
+<hr>
+
+<h2>ข้อมูลผู้รับ</h2>
+
+<input
+id="receiverName"
+type="text"
+placeholder="ชื่อผู้รับ">
+
+<input
+id="phone"
+type="tel"
+placeholder="เบอร์โทรศัพท์">
+
+<textarea
+id="address"
+rows="4"
+placeholder="ที่อยู่จัดส่ง"></textarea>
+
+<button onclick="goPayment()">
+ไปหน้าชำระเงิน
+</button>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+<script>
+
+// โหลดสินค้า
+
+const cart =
+JSON.parse(
+localStorage.getItem("cart")
+) || [];
+
+const orderList =
+document.getElementById("orderList");
+
+const totalPrice =
+document.getElementById("totalPrice");
+
+let total = 0;
+let html = "";
+
+if(cart.length === 0){
+
+alert("ไม่มีสินค้าในตะกร้า");
+
+window.location.href =
+"shop.html";
+
+}
+
+// แสดงสินค้า
+
+cart.forEach(item=>{
+
+const subtotal =
+Number(item.price) *
+Number(item.qty);
+
+total += subtotal;
+
+html += `
+
+<div class="order-item">
+
+<h3>${item.name}</h3>
+
+<p>จำนวน : ${item.qty}</p>
+
+<p>ราคา : ${item.price} บาท</p>
+
+<p>รวม : ${subtotal} บาท</p>
+
+</div>
+
+`;
+
+});
+
+orderList.innerHTML = html;
+
+totalPrice.innerHTML =
+"ยอดรวม : " +
+total.toLocaleString() +
+" บาท";
+
+
+// ไปหน้าชำระเงิน
+
+async function goPayment(){
+
+const {
+data:{user}
+}
+=
+await supabaseClient.auth.getUser();
+
+if(!user){
+
+alert(
+"กรุณา Login ก่อน"
+);
+
+window.location.href =
+"login.html";
+
+return;
+
+}
+
+const receiverName =
+document.getElementById(
+"receiverName"
+).value.trim();
+
+const phone =
+document.getElementById(
+"phone"
+).value.trim();
+
+const address =
+document.getElementById(
+"address"
+).value.trim();
+
+if(
+!receiverName ||
+!phone ||
+!address
+){
+
+alert(
+"กรุณากรอกข้อมูลให้ครบ\nPlease fill all information."
+);
+
+return;
+
+}
+
+const checkoutData = {
+
+user_email:
+user.email,
+
+receiver_name:
+receiverName,
+
+receiver_phone:
+phone,
+
+receiver_address:
+address,
+
+products:
+cart,
+
+total_price:
+total
+
+};
+
+localStorage.setItem(
+"checkoutData",
+JSON.stringify(checkoutData)
+);
+
+alert("กำลังไป payment");
+window.location.href =
+"payment.html";
+
+}
+
+</script>
+
 </body>
 </html>

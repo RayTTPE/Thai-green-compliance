@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="th">
 
@@ -49,89 +50,258 @@ button{
 
 <script>
 
-const orderData = JSON.parse(localStorage.getItem("checkoutData"));
+const orderData =
+JSON.parse(
+localStorage.getItem("checkoutData")
+);
 
 if(!orderData){
     window.location.href = "shop.html";
 }
 
 // ===============================
-// แปลง products -> ข้อความสรุป
+// แสดงรายการสินค้า
 // ===============================
+
 function formatProducts(products){
     return products
-        .map(item => `สินค้า ${item.id}/ ${item.qty} ชิ้น`)
+        .map(item =>
+            `${item.name || ("สินค้า " + item.id)} / ${item.qty} ชิ้น`
+        )
         .join(", ");
 }
 
 document.getElementById("paymentInfo").innerHTML = `
-    <h3>ยอดชำระ : ${orderData.total_price} บาท</h3>
-    <p>รายการสินค้า : ${formatProducts(orderData.products)}</p>
+<h3>ยอดชำระ : ${orderData.total_price} บาท</h3>
+<p>รายการสินค้า : ${formatProducts(orderData.products)}</p>
 `;
-
 
 // ===============================
 // TIMER
 // ===============================
+
 let timeLeft = 15 * 60;
-const timer = document.getElementById("timer");
 
-const countdown = setInterval(() => {
+const timer =
+document.getElementById("timer");
 
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
+const countdown =
+setInterval(()=>{
 
-    timer.innerHTML = `${minutes}:${seconds.toString().padStart(2,"0")}`;
+    const minutes =
+    Math.floor(timeLeft / 60);
+
+    const seconds =
+    timeLeft % 60;
+
+    timer.innerHTML =
+    `${minutes}:${seconds.toString().padStart(2,"0")}`;
 
     timeLeft--;
 
     if(timeLeft < 0){
+
         clearInterval(countdown);
-        localStorage.removeItem("pendingOrder");
+
         alert("หมดเวลาชำระเงิน");
-        window.location.href = "shop.html";
+
+        window.location.href =
+        "shop.html";
     }
 
-}, 1000);
-
+},1000);
 
 // ===============================
 // PAYMENT SUCCESS
 // ===============================
+
 async function paymentSuccess(){
 
-    const productsText = formatProducts(orderData.products);
+try{
 
-    const { error } = await supabaseClient
+    console.log("ORDER DATA", orderData);
+
+    const productsText =
+    formatProducts(orderData.products);
+
+    // ------------------
+    // INSERT ORDER
+    // ------------------
+
+    const {
+        error: orderError
+    }
+    =
+    await supabaseClient
     .from("orders")
     .insert([{
-        user_email: orderData.user_email,
-        receiver_name: orderData.receiver_name,
-        receiver_phone: orderData.receiver_phone,
-        receiver_address: orderData.receiver_address,
 
-        // 🔥 เปลี่ยนตรงนี้จาก JSON -> ข้อความ
-        products: productsText,
+        user_email:
+        orderData.user_email,
 
-        total_price: orderData.total_price,
-        payment_status: "paid",
-        order_status: "processing"
+        receiver_name:
+        orderData.receiver_name,
+
+        receiver_phone:
+        orderData.receiver_phone,
+
+        receiver_address:
+        orderData.receiver_address,
+
+        products:
+        productsText,
+
+        total_price:
+        orderData.total_price,
+
+        payment_status:
+        "paid",
+
+        order_status:
+        "processing"
+
     }]);
 
-    if(error){
-        console.error(error);
-        alert(JSON.stringify(error));
+    if(orderError){
+
+        console.error(orderError);
+
+        alert(
+        "Order Error : " +
+        orderError.message
+        );
+
         return;
+    }
+
+    // ------------------
+    // UPDATE PRODUCT SALES
+    // ------------------
+
+    for(const item of orderData.products){
+
+        console.log(
+        "PROCESS ITEM",
+        item
+        );
+
+        const {
+            data:saleData,
+            error:selectError
+        }
+        =
+        await supabaseClient
+        .from("product_sales")
+        .select("*")
+        .eq("product_id", item.id)
+        .maybeSingle();
+
+        if(selectError){
+
+            console.error(
+            "SELECT ERROR",
+            selectError
+            );
+
+            continue;
+        }
+
+        if(saleData){
+
+            const {
+                error:updateError
+            }
+            =
+            await supabaseClient
+            .from("product_sales")
+            .update({
+
+                total_sold:
+                Number(
+                saleData.total_sold
+                ) +
+                Number(item.qty),
+
+                updated_at:
+                new Date()
+                .toISOString()
+
+            })
+            .eq(
+            "product_id",
+            item.id
+            );
+
+            if(updateError){
+
+                console.error(
+                "UPDATE ERROR",
+                updateError
+                );
+
+            }
+
+        }else{
+
+            const {
+                error:insertError
+            }
+            =
+            await supabaseClient
+            .from("product_sales")
+            .insert([{
+
+                product_id:
+                item.id,
+
+                product_name:
+                item.name ||
+                ("สินค้า " + item.id),
+
+                total_sold:
+                Number(item.qty)
+
+            }]);
+
+            if(insertError){
+
+                console.error(
+                "INSERT ERROR",
+                insertError
+                );
+
+            }
+
+        }
+
     }
 
     localStorage.removeItem("cart");
     localStorage.removeItem("checkoutData");
 
-    alert("ชำระเงินสำเร็จ");
-    window.location.href = "shop.html";
+    alert(
+    "ชำระเงินสำเร็จ"
+    );
+
+    window.location.href =
+    "shop.html";
+
+}
+catch(err){
+
+    console.error(err);
+
+    alert(
+    "SYSTEM ERROR : " +
+    err.message
+    );
+
+}
+
 }
 
 </script>
 
 </body>
 </html>
+```

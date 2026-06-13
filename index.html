@@ -7,352 +7,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="main.css">
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-scroll-behavior:smooth;
-}
-
-body{
-background:#0b1118;
-color:white;
-overflow-x:hidden;
-}
-
-/* Animated Background */
-
-.bg{
-position:fixed;
-width:500px;
-height:500px;
-border-radius:50%;
-background:rgba(108,255,143,0.08);
-filter:blur(120px);
-z-index:-1;
-animation:float 10s ease-in-out infinite;
-}
-
-.bg:nth-child(1){
-top:-150px;
-left:-100px;
-}
-
-.bg:nth-child(2){
-bottom:-150px;
-right:-100px;
-animation-delay:3s;
-}
-
-@keyframes float{
-0%{transform:translateY(0);}
-50%{transform:translateY(40px);}
-100%{transform:translateY(0);}
-}
-
-/* Navbar */
-
-nav{
-position:fixed;
-top:0;
-width:100%;
-padding:20px 8%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:rgba(0,0,0,0.4);
-backdrop-filter:blur(12px);
-z-index:1000;
-border-bottom:1px solid rgba(255,255,255,0.05);
-}
-
-.logo{
-display:flex;
-align-items:center;
-}
-
-.logo span{
-color:white;
-}
-
-nav ul{
-display:flex;
-list-style:none;
-gap:30px;
-}
-
-nav a{
-text-decoration:none;
-color:white;
-transition:0.3s;
-position:relative;
-}
-
-nav a:hover{
-color:#6CFF8F;
-}
-
-/* Hero */
-
-.hero{
-height:100vh;
-display:flex;
-align-items:center;
-padding:0 8%;
-background:
-linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)),
-url('https://images.unsplash.com/photo-1516253593875-bd7ba052fbc5?q=80&w=1600') center/cover;
-}
-
-.hero-content{
-max-width:700px;
-animation:fadeUp 1.2s ease;
-}
-
-.hero h1{
-font-size:78px;
-line-height:1.05;
-margin-bottom:25px;
-}
-
-.hero h1 span{
-color:#6CFF8F;
-}
-
-.hero p{
-font-size:20px;
-line-height:1.8;
-color:#d1d5db;
-margin-bottom:40px;
-}
-
-.btn{
-display:inline-block;
-padding:15px 35px;
-background:#6CFF8F;
-color:black;
-font-weight:600;
-border-radius:12px;
-text-decoration:none;
-transition:0.4s;
-box-shadow:0 0 30px rgba(108,255,143,0.3);
-}
-
-.btn:hover{
-transform:translateY(-5px) scale(1.03);
-}
-
-/* Sections */
-
-section{
-padding:110px 8%;
-}
-
-.section-title{
-text-align:center;
-font-size:45px;
-margin-bottom:70px;
-}
-
-.section-title span{
-color:#6CFF8F;
-}
-
-/* Cards */
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:30px;
-}
-
-.card{
-background:rgba(255,255,255,0.03);
-padding:35px;
-border-radius:24px;
-backdrop-filter:blur(10px);
-border:1px solid rgba(255,255,255,0.05);
-transition:0.4s;
-}
-
-.card:hover{
-transform:translateY(-10px);
-border-color:#6CFF8F;
-box-shadow:0 0 30px rgba(108,255,143,0.15);
-}
-
-.card a{
-display:block;
-color:inherit;
-text-decoration:none;
-}
-
-.card h3{
-margin-bottom:15px;
-color:#6CFF8F;
-}
-
-.card p{
-color:#cbd5e1;
-line-height:1.7;
-}
-
-/* About */
-
-.about{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:60px;
-align-items:center;
-}
-
-.about img{
-width:100%;
-border-radius:24px;
-transition:0.5s;
-}
-
-.about img:hover{
-transform:scale(1.03);
-}
-
-.about-text h2{
-font-size:40px;
-margin-bottom:20px;
-}
-
-.about-text p{
-color:#cbd5e1;
-line-height:1.8;
-}
-
-/* Projects */
-
-.projects{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-gap:25px;
-}
-
-.project{
-overflow:hidden;
-border-radius:24px;
-}
-
-.project img{
-width:100%;
-height:320px;
-object-fit:cover;
-transition:0.6s;
-}
-
-.project:hover img{
-transform:scale(1.1);
-}
-
-.contact{
-text-align:center;
-}
-
-.contact-box{
-max-width:700px;
-margin:auto;
-padding:50px;
-border-radius:24px;
-background:rgba(255,255,255,0.03);
-border:1px solid rgba(255,255,255,0.05);
-backdrop-filter:blur(10px);
-}
-
-.contact-box p{
-margin-bottom:15px;
-color:#d1d5db;
-}
-
-/* Footer */
-
-footer{
-padding:35px;
-text-align:center;
-color:#94a3b8;
-border-top:1px solid rgba(255,255,255,0.05);
-}
-
-/* Scroll animation */
-
-.reveal{
-opacity:0;
-transform:translateY(70px);
-transition:1s ease;
-}
-
-.reveal.active{
-opacity:1;
-transform:translateY(0);
-}
-
-@keyframes fadeUp{
-from{
-opacity:0;
-transform:translateY(50px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-/* Mobile */
-
-menu-toggle{
-    display:none;
-    font-size:32px;
-    cursor:pointer;
-    color:white;
-}
-
-@media(max-width:900px){
-
-.menu-toggle{
-    display:block;
-}
-
-nav ul{
-    position:absolute;
-    top:80px;
-    left:0;
-    width:100%;
-    background:#111;
-    flex-direction:column;
-    align-items:center;
-    padding:20px 0;
-
-    display:none;
-}
-
-nav ul.active{
-    display:flex;
-}
-}
-@media(max-width:600px){
-
-.hero h1{
-font-size:48px;
-}
-
-.about{
-grid-template-columns:1fr;
-}
-
-nav ul{
-display:none;
-}
-
-}
-</style>
 </head>
 
 <body>
@@ -360,22 +16,26 @@ display:none;
 <div class="bg"></div>
 <div class="bg"></div>
 
-<nav>
-<div class="logo"><img src="./รูป/logo.png" alt="Thai Green Compliance" style="height:55px;width:auto;border-radius:8px;"></div>
+<nav class="top-navbar">
 
-<div class="menu-toggle" id="menuToggle">
-    ☰
-</div>
+    <a href="#home" class="nav-logo">
+        <img src="./รูป/logo.png" alt="Thai Green Compliance">
+        <span>Thai Green Compliance</span>
+    </a>
 
-</div>
-<ul>
-<li><a href="#home">Home</a></li>
-<li><a href="#about">About</a></li>
-<li><a href="store.html">Store</a></li>
-<li><a href="#services">Services</a></li>
-<li><a href="projects.html">Projects</a></li>
-<li><a href="#contact" id="contactMenuBtn" style="cursor:pointer;">Contact</a></li>
-</ul>
+    <button class="menu-toggle" id="menuToggle" type="button">
+        ☰
+    </button>
+
+    <div class="nav-menu" id="navMenu">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="shop.html">Store</a>
+        <a href="#services">Services</a>
+        <a href="projects.html">Projects</a>
+        <a href="#contact" id="contactMenuBtn">Contact</a>
+    </div>
+
 </nav>
 
 <section id="home" class="hero reveal">
@@ -554,12 +214,21 @@ document.addEventListener('DOMContentLoaded', function(){
 </footer>
 
 <script>
+    
 const reveals = document.querySelectorAll('.reveal');
+
+
 const menuToggle = document.getElementById("menuToggle");
-const navMenu = document.querySelector("nav ul");
+const navMenu = document.getElementById("navMenu");
 
 menuToggle.addEventListener("click", () => {
     navMenu.classList.toggle("active");
+});
+
+document.querySelectorAll(".nav-menu a").forEach(link => {
+    link.addEventListener("click", () => {
+        navMenu.classList.remove("active");
+    });
 });
 
 window.addEventListener('scroll', () => {

@@ -6,234 +6,595 @@
 <title>Thai Green Compliance</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="main.css">
-
 </head>
 
 <body>
 
-<div class="bg"></div>
-<div class="bg"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
+<div class="page-noise"></div>
+<div class="bg bg-one"></div>
+<div class="bg bg-two"></div>
+<div class="bg bg-three"></div>
 
-<nav class="top-navbar">
+<!-- =========================
+     NAVBAR
+========================= -->
+<nav class="top-navbar" id="topNavbar">
 
-    <a href="#home" class="nav-logo">
+    <a href="#home" class="nav-logo" aria-label="Thai Green Compliance Home">
         <img src="./รูป/logo.png" alt="Thai Green Compliance">
         <span>Thai Green Compliance</span>
     </a>
 
-    <button class="menu-toggle" id="menuToggle" type="button">
-        ☰
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
     </button>
 
     <div class="nav-menu" id="navMenu">
-        <a href="#home">Home</a>
+        <a href="#home" class="active">Home</a>
         <a href="#about">About</a>
         <a href="shop.html">Store</a>
+        <a href="#contact">Contact</a>
         <a href="#services">Services</a>
         <a href="projects.html">Projects</a>
-        <a href="#contact">Contact</a>
     </div>
 
 </nav>
 
-<section id="home" class="hero reveal">
-<div class="hero-content">
-<h1>Future of <span>Greenhouse</span></h1>
-<p>ระบบการเกษตรแบบยั่งยืน - นำอนาคตเกษตรสู่ความเป็นมืออาชีพ</p>
-<p> (Sustainable Agriculture System Leading the Future of Professional Farming)</p>
-<button class="btn" id="contactOpenBtn" style="border:none;cursor:pointer;">Contact us</button>
-</div>
+<!-- =========================
+     HERO
+========================= -->
+<section id="home" class="hero section-observe">
+
+    <div class="hero-grid"></div>
+    <div class="hero-orb hero-orb-one"></div>
+    <div class="hero-orb hero-orb-two"></div>
+
+    <div class="hero-content reveal">
+
+        <div class="eyebrow">
+            <span class="pulse-dot"></span>
+            Licensed Greenhouse • Compliance • Precision Farming
+        </div>
+
+        <h1>
+            Future of <span>Greenhouse</span>
+        </h1>
+
+        <p class="hero-thai">
+            ระบบการเกษตรแบบยั่งยืน - นำอนาคตเกษตรสู่ความเป็นมืออาชีพ
+        </p>
+
+        <p class="hero-subtitle">
+            Sustainable agriculture infrastructure for professional cultivation, controlled production, documentation, and compliant delivery.
+        </p>
+
+        <div class="hero-actions">
+            <a href="shop.html" class="btn primary-btn">
+                Explore Store
+            </a>
+
+            <a href="#services" class="btn ghost-btn">
+                View Standards
+            </a>
+
+            <button class="btn glass-btn contact-popup-btn" type="button">
+                Contact us
+            </button>
+        </div>
+
+        <div class="hero-metrics" aria-label="Company highlights">
+            <div class="metric-card">
+                <strong data-count="100">0</strong>
+                <span>Compliance Focus</span>
+            </div>
+
+            <div class="metric-card">
+                <strong data-count="24">0</strong>
+                <span>Process Control</span>
+            </div>
+
+            <div class="metric-card">
+                <strong data-count="4">0</strong>
+                <span>Core Standards</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="hero-visual reveal delay-1" data-tilt>
+        <div class="greenhouse-shell">
+            <div class="shell-glow"></div>
+            <div class="scan-line"></div>
+            <div class="cannabis-plant" aria-hidden="true">
+
+                <div class="plant-glow"></div>
+                <div class="plant-stem"></div>
+
+                <div class="leaf leaf-center leaf-top">
+                    <span class="leaf-core"></span>
+                    <span class="leaf-blade b1"></span>
+                    <span class="leaf-blade b2"></span>
+                    <span class="leaf-blade b3"></span>
+                    <span class="leaf-blade b4"></span>
+                    <span class="leaf-blade b5"></span>
+                    <span class="leaf-blade b6"></span>
+                    <span class="leaf-blade b7"></span>
+                </div>
+
+                <div class="leaf leaf-left leaf-mid">
+                    <span class="leaf-core"></span>
+                    <span class="leaf-blade b1"></span>
+                    <span class="leaf-blade b2"></span>
+                    <span class="leaf-blade b3"></span>
+                    <span class="leaf-blade b4"></span>
+                    <span class="leaf-blade b5"></span>
+                    <span class="leaf-blade b6"></span>
+                    <span class="leaf-blade b7"></span>
+                </div>
+
+                <div class="leaf leaf-right leaf-mid">
+                    <span class="leaf-core"></span>
+                    <span class="leaf-blade b1"></span>
+                    <span class="leaf-blade b2"></span>
+                    <span class="leaf-blade b3"></span>
+                    <span class="leaf-blade b4"></span>
+                    <span class="leaf-blade b5"></span>
+                    <span class="leaf-blade b6"></span>
+                    <span class="leaf-blade b7"></span>
+                </div>
+
+                <div class="leaf leaf-left leaf-low">
+                    <span class="leaf-core"></span>
+                    <span class="leaf-blade b1"></span>
+                    <span class="leaf-blade b2"></span>
+                    <span class="leaf-blade b3"></span>
+                    <span class="leaf-blade b4"></span>
+                    <span class="leaf-blade b5"></span>
+                    <span class="leaf-blade b6"></span>
+                    <span class="leaf-blade b7"></span>
+                </div>
+
+                <div class="leaf leaf-right leaf-low">
+                    <span class="leaf-core"></span>
+                    <span class="leaf-blade b1"></span>
+                    <span class="leaf-blade b2"></span>
+                    <span class="leaf-blade b3"></span>
+                    <span class="leaf-blade b4"></span>
+                    <span class="leaf-blade b5"></span>
+                    <span class="leaf-blade b6"></span>
+                    <span class="leaf-blade b7"></span>
+                </div>
+
+        </div>
+            <div class="sensor-map">
+                <div class="sensor active"></div>
+                <div class="sensor"></div>
+                <div class="sensor active"></div>
+                <div class="sensor"></div>
+            </div>
+            <div class="data-chip chip-top">
+                <small>Climate</small>
+                <strong>Optimal</strong>
+            </div>
+            <div class="data-chip chip-bottom">
+                <small>Traceability</small>
+                <strong>Verified</strong>
+            </div>
+        </div>
+    </div>
+
+    <a href="#about" class="scroll-cue" aria-label="Scroll to about">
+        <span></span>
+    </a>
+
 </section>
 
-<section id="about" class="reveal">
-
-<div class="about">
-
-<img src="./รูป/TG.png" alt="Thai Green Compliance" style="height:300px;width:auto;">
-
-<div class="about-text">
-
-<h2>Thai Green Compliance Co., Ltd</h2>
-<p style="margin-bottom:12px;">บริษัทของเรามุ่งเน้นไปที่ คุณภาพและมาตรฐานในทุกกระบวนการบนพื้นฐานตามกฏหมายของราชอาณาจักรไทย และข้อกำหนดด้านกฏระเบียบ</p>
-<p style="margin-bottom:20px;font-size:16px;">เรามีความรับผิดชอบในการผลิตและการจัดจำหน่าย มีระบบปลูกเฉพาะสำหรับกัญชาที่แม่นยำ</p>
-
-<p>
-บริษัทของเรายินดีให้การตรวจสอบตั้งแต่เอกสาร จวบจนการจัดหาเมล็ดพันธุ์สำหรับการเพาะปลูก การเก็บเกี่ยว, การแปรรูป, การจัดเก็บ, โลจิสติกส์, การส่งมอบสุดท้ายไปยังส่วนการดูแลสุขภาพ
-</p>
-<p>
-การดำเนินงานที่ปลอดภัยและควบคุม ได้รับการสนับสนุนโดยเอกสารที่ถูกต้องและเป็นปัจจุบันในทุกขั้นตอนของห่วงโซ่อุปทาน เรากำลังวางตัวในฐานะฟาร์มกัญชาทางการแพทย์ที่ได้รับใบอนุญาตอย่างเต็มที่ ด้วยการมีส่วนร่วมให้บริการดูแลสุขภาพที่ได้รับอนุญาตอย่างเคร่งครัด ภายใต้ข้อกฏหมายของประเทศไทย
-นอกจากนี้ เราตั้งใจที่จะร่วมมืออย่างใกล้ชิดและโปร่งใสกับหน่วยงานราชการไทยหรือหน่วยงานที่เกี่ยวข้อง และผู้ที่มีส่วนได้ส่วนเสียด้านกฏระเบียบ เพื่อให้มั่นใจถึงความรับผิดชอบ การกำกับดูแล และการปฏิบัติตามกฏระเบียบอย่างเต็มที่ตลอดการดำเนินงานของเรา ตั้งแต่โรงงานผลิตที่มีความปลอดภัยสูงของเราผ่านการจัดการโลจิสติกส์ ไปจนถึงการกระจายผลิตภัณฑ์ขั้นสุดท้าย
-</p>
-<p>
-(Our company is committed to maintaining the highest standards of quality and compliance throughout every stage of our operations, in accordance with the laws of the Kingdom of Thailand and all applicable regulatory requirements.
-
-We take full responsibility for the production and distribution process and operate a specialized cultivation system designed specifically for cannabis, ensuring precision, consistency, and regulatory compliance.
-
-Our company welcomes inspection and verification throughout the entire supply chain, from documentation and seed sourcing for cultivation, through harvesting, processing, storage, logistics management, and final delivery to authorized healthcare sectors.
-
-Safe and controlled operations are supported by accurate and up-to-date documentation at every stage of the supply chain. We are positioning ourselves as a fully licensed medical cannabis cultivation facility, operating in strict compliance with Thai regulations and serving authorized healthcare providers.
-
-Furthermore, we are committed to working closely and transparently with Thai government authorities, relevant agencies, and regulatory stakeholders to ensure accountability, effective governance, and full regulatory compliance across all aspects of our operations. This commitment extends from our highly secure production facilities and logistics management systems through to the final distribution of our products.)
-</p>
-
-</div>
+<!-- =========================
+     TRUST STRIP
+========================= -->
+<section class="trust-strip reveal">
+    <div class="trust-item">
+        <strong>GACP Mindset</strong>
+        <span>Documentation & process discipline</span>
+    </div>
+    <div class="trust-item">
+        <strong>Controlled Facility</strong>
+        <span>Environmental precision workflow</span>
+    </div>
+    <div class="trust-item">
+        <strong>Transparent Supply</strong>
+        <span>From sourcing to delivery</span>
+    </div>
 </section>
 
-<section id="services" class="reveal">
+<!-- =========================
+     ABOUT
+========================= -->
+<section id="about" class="section-block section-observe reveal">
 
-<h2 class="section-title">
-Our <span>Standards</span>
-</h2>
+    <div class="section-heading">
+        <span>About Company</span>
+        <h2>Thai Green Compliance Co., Ltd</h2>
+        <p>Quality, compliance, and controlled cultivation across every stage of the medical agriculture supply chain.</p>
+    </div>
 
-<div class="grid">
+    <div class="about premium-card">
 
-<div class="card">
-<a href="greenhouse-design.html">
-<h3>Greenhouse Design</h3>
-<p>ออกแบบโรงเรือนระดับมืออาชีพ</p>
-</a>
-</div>
+        <div class="image-frame" data-tilt>
+            <img src="./รูป/TG.png" alt="Thai Green Compliance">
+        </div>
 
-<div class="card">
-<a href="climate-control.html">
-<h3>Climate Control</h3>
-<p>ระบบควบคุมอุณหภูมิและความชื้น</p>
-</a>
-</div>
+        <div class="about-text">
+            <h3>
+            บริษัทของเรายินดีให้การตรวจสอบตั้งแต่เอกสาร จวบจนการจัดหาเมล็ดพันธุ์สำหรับการเพาะปลูก การเก็บเกี่ยว, การแปรรูป, การจัดเก็บ, โลจิสติกส์, การส่งมอบสุดท้ายไปยังส่วนการดูแลสุขภาพ
+            </h3>
+            <p>
+            การดำเนินงานที่ปลอดภัยและควบคุม ได้รับการสนับสนุนโดยเอกสารที่ถูกต้องและเป็นปัจจุบันในทุกขั้นตอนของห่วงโซ่อุปทาน เรากำลังวางตัวในฐานะฟาร์มกัญชาทางการแพทย์ที่ได้รับใบอนุญาตอย่างเต็มที่ ด้วยการมีส่วนร่วมให้บริการดูแลสุขภาพที่ได้รับอนุญาตอย่างเคร่งครัด ภายใต้ข้อกฏหมายของประเทศไทย
+            นอกจากนี้ เราตั้งใจที่จะร่วมมืออย่างใกล้ชิดและโปร่งใสกับหน่วยงานราชการไทยหรือหน่วยงานที่เกี่ยวข้อง และผู้ที่มีส่วนได้ส่วนเสียด้านกฏระเบียบ เพื่อให้มั่นใจถึงความรับผิดชอบ การกำกับดูแล และการปฏิบัติตามกฏระเบียบอย่างเต็มที่ตลอดการดำเนินงานของเรา ตั้งแต่โรงงานผลิตที่มีความปลอดภัยสูงของเราผ่านการจัดการโลจิสติกส์ ไปจนถึงการกระจายผลิตภัณฑ์ขั้นสุดท้าย
+            </p>
+            <p>
+            (Our company is committed to maintaining the highest standards of quality and compliance throughout every stage of our operations, in accordance with the laws of the Kingdom of Thailand and all applicable regulatory requirements.
 
-<div class="card">
-<a href="growlink-system.html">
-<h3>Growlink System</h3>
-<p>ควบคุมโรงเรือนผ่านมือถือ</p>
-</a>
-</div>
+            We take full responsibility for the production and distribution process and operate a specialized cultivation system designed specifically for cannabis, ensuring precision, consistency, and regulatory compliance.
 
-<div class="card">
-<a href="gacp-consulting.html">
-<h3>GACP Consulting</h3>
-<p>ให้คำปรึกษามาตรฐาน GACP</p>
-</a>
-</div>
+            Our company welcomes inspection and verification throughout the entire supply chain, from documentation and seed sourcing for cultivation, through harvesting, processing, storage, logistics management, and final delivery to authorized healthcare sectors.
 
-</div>
+            Safe and controlled operations are supported by accurate and up-to-date documentation at every stage of the supply chain. We are positioning ourselves as a fully licensed medical cannabis cultivation facility, operating in strict compliance with Thai regulations and serving authorized healthcare providers.
+
+            Furthermore, we are committed to working closely and transparently with Thai government authorities, relevant agencies, and regulatory stakeholders to ensure accountability, effective governance, and full regulatory compliance across all aspects of our operations. This commitment extends from our highly secure production facilities and logistics management systems through to the final distribution of our products.)
+            </p>
+
+            <div class="about-pills">
+                <span>Documented</span>
+                <span>Controlled</span>
+                <span>Traceable</span>
+                <span>Compliant</span>
+            </div>
+        </div>
+
+    </div>
 
 </section>
 
-<section id="contact" class="contact">
+<!-- =========================
+     PROCESS
+========================= -->
+<section class="process-section section-observe reveal">
 
-<div class="about">
+    <div class="section-heading compact">
+        <span>Operational Chain</span>
+        <h2>From Seed Source to Final Delivery</h2>
+    </div>
 
-<img src="./รูป/B.jpg" alt="About Image">
-
-<div class="about-text">
-
-<h2>Thai Green Compliance Co., Ltd</h2>
-<p><strong>บริษัท ไทย กรีน คอมไพลแอนซ์ จำกัด</strong></p>
-<p style="margin-bottom:12px;">39/3 หมู่ที่ 4 ตำบลวังใหญ่ อำเภอวิเชียรบุรี จังหวัดเพชรบูรณ์</p>
-<p style="margin-bottom:20px;font-size:14px;">39/3 Village No. 4, Wang Yai Subdistrict, Wichian Buri District, Phetchabun Province 67130, Thailand</p>
-
-</p>
-
-</div>
-
-</div>
+    <div class="process-line">
+        <div class="process-step">
+            <span>01</span>
+            <h3>Documentation</h3>
+            <p>เตรียมเอกสารและข้อมูลอ้างอิงเพื่อรองรับการตรวจสอบ</p>
+        </div>
+        <div class="process-step">
+            <span>02</span>
+            <h3>Cultivation</h3>
+            <p>ควบคุมสภาพแวดล้อมและกระบวนการปลูกอย่างเป็นระบบ</p>
+        </div>
+        <div class="process-step">
+            <span>03</span>
+            <h3>Processing</h3>
+            <p>เก็บเกี่ยว แปรรูป และจัดเก็บภายใต้แนวทางที่ปลอดภัย</p>
+        </div>
+        <div class="process-step">
+            <span>04</span>
+            <h3>Distribution</h3>
+            <p>จัดการโลจิสติกส์และการส่งมอบไปยังภาคส่วนที่ได้รับอนุญาต</p>
+        </div>
+    </div>
 
 </section>
 
+<!-- =========================
+     SERVICES
+========================= -->
+<section id="services" class="section-block section-observe reveal">
+
+    <div class="section-heading">
+        <span>Professional Standards</span>
+        <h2>Our <span>Standards</span></h2>
+        <p>Integrated service modules designed for modern greenhouse operations.</p>
+    </div>
+
+    <div class="grid service-grid">
+
+        <div class="card magnetic-card">
+            <a href="greenhouse-design.html">
+                <div class="card-icon">🏗️</div>
+                <h3>Greenhouse Design</h3>
+                <p>ออกแบบโรงเรือนระดับมืออาชีพ เพื่อรองรับการควบคุมสภาพแวดล้อมและ workflow จริง</p>
+                <span class="card-link">Explore →</span>
+            </a>
+        </div>
+
+        <div class="card magnetic-card">
+            <a href="climate-control.html">
+                <div class="card-icon">🌡️</div>
+                <h3>Climate Control</h3>
+                <p>ระบบควบคุมอุณหภูมิ ความชื้น และสภาพแวดล้อมสำหรับการเพาะปลูกที่แม่นยำ</p>
+                <span class="card-link">Explore →</span>
+            </a>
+        </div>
+
+        <div class="card magnetic-card">
+            <a href="growlink-system.html">
+                <div class="card-icon">📲</div>
+                <h3>Growlink System</h3>
+                <p>ควบคุมและติดตามโรงเรือนผ่านมือถือ พร้อมแนวคิดระบบอัตโนมัติและข้อมูล real-time</p>
+                <span class="card-link">Explore →</span>
+            </a>
+        </div>
+
+        <div class="card magnetic-card">
+            <a href="gacp-consulting.html">
+                <div class="card-icon">✅</div>
+                <h3>GACP Consulting</h3>
+                <p>ให้คำปรึกษาด้านมาตรฐาน เอกสาร และขั้นตอนการปฏิบัติที่ตรวจสอบได้</p>
+                <span class="card-link">Explore →</span>
+            </a>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     LOCATION / CONTACT
+========================= -->
+<section id="contact" class="contact section-observe reveal">
+
+    <div class="contact-layout">
+
+        <div class="location-frame" data-tilt>
+            <img src="./รูป/B.jpg" alt="Thai Green Compliance location">
+            <div class="location-badge">
+                <span>📍</span>
+                <strong>Phetchabun, Thailand</strong>
+            </div>
+        </div>
+
+        <div class="contact-box">
+            <span class="contact-label">Contact</span>
+            <h2>Thai Green Compliance Co., Ltd</h2>
+            <p><strong>บริษัท ไทย กรีน คอมไพลแอนซ์ จำกัด</strong></p>
+            <p>39/3 หมู่ที่ 4 ตำบลวังใหญ่ อำเภอวิเชียรบุรี จังหวัดเพชรบูรณ์</p>
+            <p>39/3 Village No. 4, Wang Yai Subdistrict, Wichian Buri District, Phetchabun Province 67130, Thailand</p>
+
+            <div class="contact-actions">
+                <a href="tel:056799019" class="mini-contact">☎ 056 799 019</a>
+                <a href="tel:0943793889" class="mini-contact">📱 094 379 3889</a>
+                <a href="tel:0968513183" class="mini-contact">📱 096 851 3183</a>
+            </div>
+
+            <button class="btn primary-btn contact-popup-btn" type="button">
+                Contact us
+            </button>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     MODALS
+========================= -->
 <div id="contactModal" class="modal" aria-hidden="true">
-	<div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
-		<button class="close" aria-label="Close">&times;</button>
-		<h3 id="contactTitle">Contact Us</h3>
-		<p>📞 Tel: 056 799 019</p>
-		<p>📱 Mobile: 094 379 3889 / 096 851 3183</p>
-		<p>📍 39/3 Village No. 4, Wang Yai Subdistrict, Wichian Buri District, Phetchabun Province 67130, Thailand</p>
-		<a href="#" class="btn" id="openLineBtn">Add LINE</a>
-	</div>
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+        <button class="close" type="button" aria-label="Close">&times;</button>
+        <h3 id="contactTitle">Contact Us</h3>
+        <p>📞 Tel: <a href="tel:056799019">056 799 019</a></p>
+        <p>📱 Mobile: <a href="tel:0943793889">094 379 3889</a> / <a href="tel:0968513183">096 851 3183</a></p>
+        <p>📍 39/3 Village No. 4, Wang Yai Subdistrict, Wichian Buri District, Phetchabun Province 67130, Thailand</p>
+        <a href="#" class="btn primary-btn" id="openLineBtn">Add LINE</a>
+    </div>
 </div>
 
 <div id="lineModal" class="modal" aria-hidden="true">
-	<div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="lineTitle">
-		<button class="close" aria-label="Close">&times;</button>
-		<h3 id="lineTitle">Add LINE</h3>
-		<p>สแกน QR หรือเพิ่มไอดีด้านล่าง</p>
-		<div style="text-align:center;margin:18px 0;">
-			<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Sample+QR+Code+for+Testing" alt="QR code" style="width:200px;height:200px;object-fit:cover;border-radius:8px;">
-		</div>
-		<p style="word-break:break-word;">LINE ID: <strong>@Thai_green</strong></p>
-	</div>
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="lineTitle">
+        <button class="close" type="button" aria-label="Close">&times;</button>
+        <h3 id="lineTitle">Add LINE</h3>
+        <p>สแกน QR หรือเพิ่มไอดีด้านล่าง</p>
+        <div class="qr-box">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Sample+QR+Code+for+Testing" alt="QR code">
+        </div>
+        <p>LINE ID: <strong>@Thai_green</strong></p>
+    </div>
 </div>
 
-
-<style>
-/* Modal styles */
-html { scroll-behavior: smooth; }
-.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.68);align-items:center;justify-content:center;padding:20px;}
-.modal.show{display:flex;}
-.modal-content{background:rgba(15,23,42,0.98);margin:0 auto;padding:24px 28px;border-radius:18px;max-width:380px;width:min(94vw,380px);box-shadow:0 18px 45px rgba(0,0,0,0.35);position:relative;border:1px solid rgba(108,255,143,0.18);}
-.modal-content h3{margin-top:0;margin-bottom:16px;font-size:24px;color:#8cffae;}
-.modal-content p{margin-bottom:14px;color:#cbd5e1;line-height:1.75;font-size:15px;}
-.modal-content p strong{color:#ffffff;}
-.modal-content .btn{width:100%;text-align:center;padding:14px 0;border-radius:14px;font-size:15px;}
-.close{position:absolute;right:14px;top:12px;border:none;background:transparent;color:#d1d5db;font-size:28px;line-height:1;cursor:pointer}
-@media (max-width:480px){.modal-content{width:92vw;max-width:340px;}}
-</style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-	var contactModal = document.getElementById('contactModal');
-	var lineModal = document.getElementById('lineModal');
-	var openBtn = document.getElementById('contactOpenBtn');
-	var menuBtn = document.getElementById('contactMenuBtn');
-	var openLineBtn = document.getElementById('openLineBtn');
-
-	function openPopup(el){ if(!el) return; el.style.display = 'flex'; el.setAttribute('aria-hidden','false'); document.body.style.overflow = 'hidden'; }
-	function closePopup(el){ if(!el) return; el.style.display = 'none'; el.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; }
-
-	openBtn && openBtn.addEventListener('click', function(e){ e.preventDefault(); openPopup(contactModal); });
-	menuBtn && menuBtn.addEventListener('click', function(e){ e.preventDefault(); openPopup(contactModal); });
-	openLineBtn && openLineBtn.addEventListener('click', function(e){ e.preventDefault(); closePopup(contactModal); openPopup(lineModal); });
-
-	document.querySelectorAll('.modal .close').forEach(function(btn){ btn.addEventListener('click', function(){ closePopup(btn.closest('.modal')); }); });
-	document.querySelectorAll('.modal').forEach(function(modal){ modal.addEventListener('click', function(e){ if(e.target === modal) closePopup(modal); }); });
-	document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ document.querySelectorAll('.modal.show, .modal').forEach(function(modal){ closePopup(modal); }); } });
-
-});
-</script>
-
 <footer>
-© 2026 Thai Green Compliance — All Rights Reserved
+    <span>© 2026 Thai Green Compliance — All Rights Reserved</span>
 </footer>
 
 <script>
+document.addEventListener("DOMContentLoaded", function(){
 
-const reveals = document.querySelectorAll('.reveal');
+    const reveals = document.querySelectorAll(".reveal");
+    const sections = document.querySelectorAll(".section-observe[id]");
+    const menuToggle = document.getElementById("menuToggle");
+    const navMenu = document.getElementById("navMenu");
+    const navbar = document.getElementById("topNavbar");
+    const navLinks = document.querySelectorAll(".nav-menu a[href^='#']");
+    const cursorGlow = document.getElementById("cursorGlow");
 
+    const contactModal = document.getElementById("contactModal");
+    const lineModal = document.getElementById("lineModal");
+    const contactButtons = document.querySelectorAll(".contact-popup-btn");
+    const openLineBtn = document.getElementById("openLineBtn");
 
-const menuToggle = document.getElementById("menuToggle");
-const navMenu = document.getElementById("navMenu");
+    function openPopup(modal){
+        if(!modal) return;
+        modal.classList.add("show");
+        modal.setAttribute("aria-hidden","false");
+        document.body.style.overflow = "hidden";
+    }
 
-menuToggle.addEventListener("click", () => {
-    navMenu.classList.toggle("active");
-});
+    function closePopup(modal){
+        if(!modal) return;
+        modal.classList.remove("show");
+        modal.setAttribute("aria-hidden","true");
+        document.body.style.overflow = "";
+    }
 
-document.querySelectorAll(".nav-menu a").forEach(link => {
-    link.addEventListener("click", () => {
-        navMenu.classList.remove("active");
+    contactButtons.forEach(function(button){
+        button.addEventListener("click", function(e){
+            e.preventDefault();
+            openPopup(contactModal);
+        });
     });
-});
 
-window.addEventListener('scroll', () => {
-reveals.forEach(reveal => {
-const windowHeight = window.innerHeight;
-const revealTop = reveal.getBoundingClientRect().top;
-const revealPoint = 100;
+    if(openLineBtn){
+        openLineBtn.addEventListener("click", function(e){
+            e.preventDefault();
+            closePopup(contactModal);
+            openPopup(lineModal);
+        });
+    }
 
-if(revealTop < windowHeight - revealPoint){
-reveal.classList.add('active');
-}
-});
+    document.querySelectorAll(".modal .close").forEach(function(button){
+        button.addEventListener("click", function(){
+            closePopup(button.closest(".modal"));
+        });
+    });
+
+    document.querySelectorAll(".modal").forEach(function(modal){
+        modal.addEventListener("click", function(e){
+            if(e.target === modal){
+                closePopup(modal);
+            }
+        });
+    });
+
+    document.addEventListener("keydown", function(e){
+        if(e.key === "Escape"){
+            closePopup(contactModal);
+            closePopup(lineModal);
+            navMenu.classList.remove("active");
+            menuToggle.classList.remove("active");
+        }
+    });
+
+    menuToggle.addEventListener("click", function(){
+        navMenu.classList.toggle("active");
+        menuToggle.classList.toggle("active");
+    });
+
+    document.querySelectorAll(".nav-menu a").forEach(function(link){
+        link.addEventListener("click", function(){
+            navMenu.classList.remove("active");
+            menuToggle.classList.remove("active");
+        });
+    });
+
+    function revealOnScroll(){
+        const windowHeight = window.innerHeight;
+
+        reveals.forEach(function(reveal){
+            const revealTop = reveal.getBoundingClientRect().top;
+            if(revealTop < windowHeight - 90){
+                reveal.classList.add("active");
+            }
+        });
+
+        if(window.scrollY > 20){
+            navbar.classList.add("scrolled");
+        }else{
+            navbar.classList.remove("scrolled");
+        }
+    }
+
+    function updateActiveLink(){
+        let current = "home";
+
+        sections.forEach(function(section){
+            const sectionTop = section.offsetTop - 130;
+            if(window.scrollY >= sectionTop){
+                current = section.getAttribute("id");
+            }
+        });
+
+        navLinks.forEach(function(link){
+            link.classList.toggle("active", link.getAttribute("href") === "#" + current);
+        });
+    }
+
+    window.addEventListener("scroll", function(){
+        revealOnScroll();
+        updateActiveLink();
+    });
+
+    revealOnScroll();
+    updateActiveLink();
+
+    const counters = document.querySelectorAll("[data-count]");
+    const counterObserver = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+            if(!entry.isIntersecting) return;
+
+            const target = entry.target;
+            const end = Number(target.dataset.count || 0);
+            let current = 0;
+            const step = Math.max(1, Math.ceil(end / 40));
+
+            const timer = setInterval(function(){
+                current += step;
+                if(current >= end){
+                    current = end;
+                    clearInterval(timer);
+                }
+                target.textContent = current + (end === 100 ? "%" : end === 24 ? "/7" : "+");
+            }, 28);
+
+            counterObserver.unobserve(target);
+        });
+    }, { threshold: 0.6 });
+
+    counters.forEach(function(counter){
+        counterObserver.observe(counter);
+    });
+
+    document.querySelectorAll("[data-tilt]").forEach(function(card){
+        card.addEventListener("mousemove", function(e){
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const rotateX = ((y / rect.height) - 0.5) * -8;
+            const rotateY = ((x / rect.width) - 0.5) * 8;
+            card.style.transform = "perspective(1000px) rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg) translateY(-4px)";
+        });
+
+        card.addEventListener("mouseleave", function(){
+            card.style.transform = "";
+        });
+    });
+
+    document.querySelectorAll(".magnetic-card").forEach(function(card){
+        card.addEventListener("mousemove", function(e){
+            const rect = card.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            card.style.setProperty("--mx", x + "%");
+            card.style.setProperty("--my", y + "%");
+        });
+    });
+
+    if(cursorGlow && window.matchMedia("(pointer:fine)").matches){
+        window.addEventListener("mousemove", function(e){
+            cursorGlow.style.transform = "translate(" + e.clientX + "px," + e.clientY + "px)";
+        });
+    }
+
 });
 </script>
 

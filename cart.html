@@ -4,280 +4,294 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>🛒 ตะกร้าสินค้า</title>
 
-<style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Poppins,sans-serif;
-}
-
-body{
-background:#0b1118;
-color:white;
-padding:30px;
-}
-
-h1{
-text-align:center;
-margin-bottom:30px;
-color:#6CFF8F;
-}
-
-.cart-container{
-max-width:1200px;
-margin:auto;
-}
-
-.cart-item{
-background:rgba(255,255,255,0.05);
-border:1px solid rgba(255,255,255,0.1);
-border-radius:20px;
-padding:20px;
-margin-bottom:20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.cart-item:hover{
-box-shadow:0 0 20px rgba(108,255,143,0.2);
-}
-
-.item-info h3{
-color:#6CFF8F;
-margin-bottom:10px;
-}
-
-.item-info p{
-margin:5px 0;
-}
-
-.delete-btn{
-background:#ff4d4d;
-color:white;
-border:none;
-padding:12px 20px;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
-}
-
-.delete-btn:hover{
-background:#ff2222;
-}
-
-.total-box{
-background:#111827;
-padding:25px;
-border-radius:20px;
-text-align:center;
-font-size:24px;
-font-weight:bold;
-color:#6CFF8F;
-margin-top:30px;
-}
-
-.btn{
-display:inline-block;
-padding:14px 30px;
-border-radius:12px;
-text-decoration:none;
-font-weight:600;
-margin-top:20px;
-margin-right:10px;
-cursor:pointer;
-border:none;
-}
-
-.back-btn{
-background:#6CFF8F;
-color:black;
-}
-
-.clear-btn{
-background:#ff4d4d;
-color:white;
-}
-
-.empty{
-text-align:center;
-font-size:22px;
-color:#94a3b8;
-margin-top:50px;
-}
-
-.buttons{
-text-align:center;
-}
-
-</style>
-
+<link rel="stylesheet" href="cart.css">
 </head>
 
 <body>
 
-<h1>🛒 ตะกร้าสินค้า</h1>
+<div class="cart-bg cart-bg-one"></div>
+<div class="cart-bg cart-bg-two"></div>
 
-<div class="cart-container">
+<main class="cart-page">
 
-<div id="cartItems"></div>
+    <div class="cart-header">
+        <a href="shop.html" class="shop-link">
+            ← กลับร้านค้า
+        </a>
 
-<div class="total-box" id="total">
-ยอดรวมทั้งหมด : 0 บาท
-</div>
+        <div class="cart-title-box">
+            <span class="cart-icon">🛒</span>
+            <h1>ตะกร้าสินค้า</h1>
+            <p>ตรวจสอบรายการสินค้าก่อนดำเนินการสั่งซื้อ</p>
+        </div>
+    </div>
 
-<div class="buttons">
+    <section class="cart-container">
 
-<a href="shop.html" class="btn back-btn">
-← กลับไปร้านค้า
-</a>
+        <div id="cartItems" class="cart-list"></div>
 
-<button class="btn clear-btn" onclick="clearCart()">
-🗑 ล้างตะกร้า
-</button>
-<button
-class="btn back-btn"
-onclick="goCheckout()">
+        <div class="checkout-panel">
 
-📦 ดำเนินการสั่งซื้อ
+            <div class="total-box" id="total">
+                ยอดรวมทั้งหมด : 0 บาท
+            </div>
 
-</button>
+            <div class="buttons">
 
-</div>
+                <button class="btn clear-btn" onclick="clearCart()">
+                    🗑 ล้างตะกร้า
+                </button>
 
-</div>
+                <button class="btn checkout-btn" onclick="goCheckout()">
+                    📦 ดำเนินการสั่งซื้อ
+                </button>
+
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
 
 <script>
 
 let cart =
 JSON.parse(localStorage.getItem("cart")) || [];
 
-function goCheckout(){
 
-const cart =
-JSON.parse(localStorage.getItem("cart")) || [];
+/* =========================
+   SAFE TEXT
+========================= */
 
-if(cart.length === 0){
+function escapeHTML(value){
 
-alert(
-"กรุณาเพิ่มสินค้าลงตะกร้าก่อน\nPlease add products to your cart first."
-);
-
-return;
-}
-
-window.location.href =
-"checkout.html";
+    return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 
 }
+
+
+/* =========================
+   GO CHECKOUT
+========================= */
+
+async function goCheckout(){
+
+    const cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
+
+    if(cart.length === 0){
+
+        alert(
+        "กรุณาเพิ่มสินค้าลงตะกร้าก่อน\nPlease add products to your cart first."
+        );
+
+        return;
+
+    }
+
+    if(typeof supabaseClient === "undefined"){
+
+        alert(
+        "ไม่พบระบบ Login กรุณากลับไปหน้าร้านค้าเพื่อล็อคอินก่อน"
+        );
+
+        window.location.href =
+        "shop.html";
+
+        return;
+
+    }
+
+    const {
+        data:{ user },
+        error
+    } =
+    await supabaseClient.auth.getUser();
+
+    if(error){
+        console.error(error);
+    }
+
+    if(!user){
+
+        alert(
+        "กรุณา Login ก่อนดำเนินการสั่งซื้อ\nPlease login before checkout."
+        );
+
+        window.location.href =
+        "shop.html";
+
+        return;
+
+    }
+
+    window.location.href =
+    "checkout.html";
+
+}
+
+
+/* =========================
+   RENDER CART
+========================= */
 
 function renderCart(){
 
-const cartItems =
-document.getElementById("cartItems");
+    const cartItems =
+    document.getElementById("cartItems");
 
-const totalBox =
-document.getElementById("total");
+    const totalBox =
+    document.getElementById("total");
 
-cart =
-JSON.parse(localStorage.getItem("cart")) || [];
+    cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
 
-if(cart.length === 0){
+    if(cart.length === 0){
 
-cartItems.innerHTML = `
-<div class="empty">
-ไม่มีสินค้าในตะกร้า
-</div>
-`;
+        cartItems.innerHTML = `
+        <div class="empty">
+            <div class="empty-icon">🛒</div>
+            <h2>ไม่มีสินค้าในตะกร้า</h2>
+            <p>กลับไปเลือกสินค้าในร้านค้าก่อนนะงับ</p>
+            <a href="shop.html" class="empty-btn">ไปเลือกร้านค้า</a>
+        </div>
+        `;
 
-totalBox.innerHTML =
-"ยอดรวมทั้งหมด : 0 บาท";
+        totalBox.innerHTML =
+        "ยอดรวมทั้งหมด : 0 บาท";
 
-return;
+        return;
+
+    }
+
+    cartItems.innerHTML =
+    "";
+
+    let total = 0;
+
+    cart.forEach((item,index)=>{
+
+        const price =
+        Number(item.price) || 0;
+
+        const qty =
+        Number(item.qty) || 0;
+
+        const subtotal =
+        price * qty;
+
+        total += subtotal;
+
+        cartItems.innerHTML += `
+
+        <div class="cart-item">
+
+            <div class="item-left">
+
+                <div class="item-number">
+                    ${index + 1}
+                </div>
+
+                <div class="item-info">
+
+                    <h3>${escapeHTML(item.name)}</h3>
+
+                    <div class="item-meta">
+                        <span>ราคา : ${price.toLocaleString()} บาท</span>
+                        <span>จำนวน : ${qty} ชิ้น</span>
+                    </div>
+
+                    <p class="item-subtotal">
+                        รวมรายการนี้ :
+                        <strong>${subtotal.toLocaleString()} บาท</strong>
+                    </p>
+
+                </div>
+
+            </div>
+
+            <button
+            class="delete-btn"
+            onclick="removeItem(${index})">
+                ❌ ลบ
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+    totalBox.innerHTML =
+    "ยอดรวมทั้งหมด : " +
+    total.toLocaleString() +
+    " บาท";
 
 }
 
-cartItems.innerHTML = "";
 
-let total = 0;
-
-cart.forEach((item,index)=>{
-
-const subtotal =
-item.price * item.qty;
-
-total += subtotal;
-
-cartItems.innerHTML += `
-
-<div class="cart-item">
-
-<div class="item-info">
-
-<h3>${item.name}</h3>
-
-<p>ราคา : ${item.price} บาท</p>
-
-<p>จำนวน : ${item.qty}</p>
-
-<p>รวม : ${subtotal} บาท</p>
-
-</div>
-
-<button
-class="delete-btn"
-onclick="removeItem(${index})">
-
-❌ ลบสินค้า
-
-</button>
-
-</div>
-
-`;
-
-});
-
-totalBox.innerHTML =
-"ยอดรวมทั้งหมด : " +
-total.toLocaleString() +
-" บาท";
-
-}
+/* =========================
+   REMOVE ITEM
+========================= */
 
 function removeItem(index){
 
-cart.splice(index,1);
+    cart.splice(index,1);
 
-localStorage.setItem(
-"cart",
-JSON.stringify(cart)
-);
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
 
-renderCart();
+    renderCart();
 
 }
+
+
+/* =========================
+   CLEAR CART
+========================= */
 
 function clearCart(){
 
-if(confirm("ต้องการล้างตะกร้าทั้งหมดหรือไม่?")){
+    if(cart.length === 0){
 
-cart = [];
+        alert("ยังไม่มีสินค้าในตะกร้า");
 
-localStorage.setItem(
-"cart",
-JSON.stringify(cart)
-);
+        return;
 
-renderCart();
+    }
+
+    if(confirm("ต้องการล้างตะกร้าทั้งหมดหรือไม่?")){
+
+        cart =
+        [];
+
+        localStorage.setItem(
+            "cart",
+            JSON.stringify(cart)
+        );
+
+        renderCart();
+
+    }
 
 }
 
-}
 
 renderCart();
 

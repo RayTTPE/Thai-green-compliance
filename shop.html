@@ -3,40 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Thai Green Compliance Store</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="sy.css">
 </head>
 
 <body>
 
-<div class="bg"></div>
-<div class="bg"></div>
+<div class="bg bg-one"></div>
+<div class="bg bg-two"></div>
+<div class="bg bg-three"></div>
+<div class="grain"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
 
 <!-- =========================
      NAVBAR
 ========================= -->
 <header class="top-navbar">
 
-    <a href="index.html" class="nav-logo">
+    <a href="index.html" class="nav-logo" aria-label="กลับหน้าแรก Thai Green Compliance">
         <img src="./รูป/logo.png" alt="Thai Green Compliance">
         <span>Thai Green Compliance</span>
     </a>
 
-    <button class="menu-toggle" id="menuToggle" type="button">
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="เปิดเมนู">
         ☰
     </button>
 
-    <nav class="nav-menu" id="navMenu">
+    <nav class="nav-menu" id="navMenu" aria-label="Main navigation">
         <a href="index.html#home">Home</a>
         <a href="index.html#services">Services</a>
         <a href="index.html#about">About</a>
         <a href="projects.html">Projects</a>
-        <a href="index.html#contact">Contact</a>
+        <a href="#" id="shopContactBtn">Contact</a>
         <a href="shop.html" class="active">Store</a>
     </nav>
 
@@ -45,8 +46,10 @@
 
         <!-- ยังไม่ Login -->
         <form id="loginForm" class="auth-form">
-            <input id="loginEmail" type="email" placeholder="Email" required>
-            <input id="loginPassword" type="password" placeholder="Password" required>
+            <div class="auth-fields">
+                <input id="loginEmail" type="email" placeholder="Email" required>
+                <input id="loginPassword" type="password" placeholder="Password" required>
+            </div>
 
             <button class="auth-btn" type="submit">
                 Login
@@ -59,6 +62,7 @@
 
         <!-- Login แล้ว -->
         <div id="userBox" class="user-box">
+            <span class="user-pill">Verified</span>
             <span id="userEmail" class="user-email"></span>
 
             <button id="logoutBtn" class="logout-btn" type="button">
@@ -71,24 +75,176 @@
 </header>
 
 <!-- =========================
+     SHOP HERO
+========================= -->
+<section class="shop-hero">
+
+    <div class="hero-grid"></div>
+
+    <div class="hero-copy">
+        <span class="eyebrow">Licensed Agriculture Marketplace</span>
+
+        <h1>
+            Professional <span>Greenhouse</span><br>
+            Agriculture Store
+        </h1>
+
+        <p>
+            ระบบหน้าร้านสำหรับผลิตภัณฑ์เกษตรและโรงเรือนระดับมืออาชีพ
+            ออกแบบให้ดูพรีเมียม เชื่อถือได้ และพร้อมต่อยอดเข้ากับระบบฐานข้อมูล / ชำระเงินจริง
+        </p>
+
+        <div class="hero-actions">
+            <a href="#productsSection" class="btn hero-btn">เลือกสินค้า</a>
+            <a href="cart.html" class="ghost-btn">ดูตะกร้า</a>
+        </div>
+    </div>
+
+    <div class="hero-panel" aria-label="Store highlights">
+        <div class="panel-orbit"></div>
+
+        <div class="panel-card main-panel-card">
+            <span class="panel-label">Smart Cultivation</span>
+            <strong>GACP-ready</strong>
+            <p>Greenhouse • Climate • Compliance</p>
+        </div>
+
+        <div class="mini-stat stat-one">
+            <strong>18</strong>
+            <span>Product Slots</span>
+        </div>
+
+        <div class="mini-stat stat-two">
+            <strong>24/7</strong>
+            <span>Online Store</span>
+        </div>
+
+        <div class="mini-stat stat-three">
+            <strong>DB</strong>
+            <span>Supabase Ready</span>
+        </div>
+    </div>
+
+</section>
+
+<!-- =========================
+     TRUST STRIP
+========================= -->
+<section class="trust-strip" aria-label="Store trust highlights">
+    <div>
+        <strong>Controlled Supply</strong>
+        <span>คุมกระบวนการตั้งแต่ต้นทาง</span>
+    </div>
+
+    <div>
+        <strong>Order System</strong>
+        <span>รองรับตะกร้าและใบสั่งซื้อ</span>
+    </div>
+
+    <div>
+        <strong>Secure Login</strong>
+        <span>Supabase Authentication</span>
+    </div>
+
+    <div>
+        <strong>Responsive UI</strong>
+        <span>รองรับมือถือและเดสก์ท็อป</span>
+    </div>
+</section>
+
+<!-- =========================
      SHOP CONTENT
 ========================= -->
-<main class="container">
+<main class="container" id="productsSection">
 
-    <h1>🛒 Thai Green Compliance Store</h1>
+    <div class="section-head">
+        <div>
+            <span class="eyebrow">Premium Collection</span>
+            <h2>สินค้าสำหรับงานเกษตรระดับมืออาชีพ</h2>
+            <p>
+                เลือกสินค้า เพิ่มจำนวน และกดลงตะกร้าได้ทันที
+                ระบบจะให้ลูกค้า Login ก่อนขั้นตอนสั่งซื้อจริง
+            </p>
+        </div>
 
-    <div class="cart-top">
-        <a class="cart-float" href="cart.html" aria-label="ไปตะกร้า">
-            🛒
-        </a>
+        <div class="store-meta-card">
+            <span>Cart Items</span>
+            <strong id="cartMiniCount">0</strong>
+        </div>
+    </div>
+
+    <div class="shop-toolbar">
+        <div class="search-box">
+            <span>⌕</span>
+            <input id="productSearch" type="search" placeholder="ค้นหาสินค้า เช่น Greenhouse, Cultivar, Nutrient">
+        </div>
+
+        <div class="filter-row" aria-label="Product filters">
+            <button class="filter-btn active" type="button" data-category="all">All</button>
+            <button class="filter-btn" type="button" data-category="cultivar">Cultivar</button>
+            <button class="filter-btn" type="button" data-category="greenhouse">Greenhouse</button>
+            <button class="filter-btn" type="button" data-category="nutrient">Nutrient</button>
+            <button class="filter-btn" type="button" data-category="compliance">Compliance</button>
+        </div>
     </div>
 
     <div id="products" class="projects-grid"></div>
 
 </main>
 
+<!-- =========================
+     FLOATING CART
+========================= -->
+<a class="cart-float" href="cart.html" aria-label="ไปตะกร้า">
+    <span class="cart-icon">🛒</span>
+    <span id="cartCount" class="cart-badge">0</span>
+</a>
+
+<!-- =========================
+     CONTACT POPUP
+========================= -->
+<div id="shopContactModal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="shopContactTitle">
+        <button class="close" id="shopContactClose" type="button" aria-label="Close">
+            &times;
+        </button>
+
+        <h3 id="shopContactTitle">Contact Us</h3>
+
+        <p>📞 Tel: <a href="tel:056799019">056 799 019</a></p>
+        <p>📱 Mobile: <a href="tel:0943793889">094 379 3889</a> / <a href="tel:0968513183">096 851 3183</a></p>
+        <p>📍 39/3 Village No. 4, Wang Yai Subdistrict, Wichian Buri District, Phetchabun Province 67130, Thailand</p>
+
+        <a href="#" class="btn" id="shopLineBtn">
+            Add LINE
+        </a>
+    </div>
+</div>
+
+<div id="shopLineModal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="shopLineTitle">
+        <button class="close" id="shopLineClose" type="button" aria-label="Close">
+            &times;
+        </button>
+
+        <h3 id="shopLineTitle">Add LINE</h3>
+
+        <p>สแกน QR หรือเพิ่มไอดีด้านล่าง</p>
+
+        <div class="qr-box">
+            <img
+            src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Sample+QR+Code+for+Testing"
+            alt="QR code">
+        </div>
+
+        <p>LINE ID: <strong>@Thai_green</strong></p>
+    </div>
+</div>
+
+<div id="toast" class="toast" aria-live="polite"></div>
+
 <footer>
-© 2026 Thai Green Compliance — All Rights Reserved
+    © 2026 Thai Green Compliance — World Class Agriculture Store
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

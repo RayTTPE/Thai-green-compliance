@@ -1,87 +1,134 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-  <meta charset="UTF-8">
-  <title>Register - Thai Green Compliance</title>
-  <style>
-    body {
-      font-family: "Prompt", sans-serif;
-      background: #f0f8f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .register-box {
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 350px;
-    }
-    .register-box h2 {
-      text-align: center;
-      color: #2e7d32;
-      margin-bottom: 20px;
-    }
-    .register-box label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: bold;
-      color: #333;
-    }
-    .register-box input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      transition: border-color 0.3s;
-    }
-    .register-box input:focus {
-      border-color: #2e7d32;
-      outline: none;
-    }
-    .register-box button {
-      width: 100%;
-      padding: 12px;
-      background: #2e7d32;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .register-box button:hover {
-      background: #1b5e20;
-    }
-  </style>
-</head>
-<body>
-  <div class="register-box">
-    <form id="registerForm">
-    <h2>สมัครสมาชิก</h2>
-    <input type="text" id="fullname" placeholder="กรอกชื่อ-นามสกุล" required>
-    <input type="email" id="email" placeholder="กรอกอีเมล" required>
-    <input type="password" id="password" placeholder="กรอกรหัสผ่าน" required>
-    <input type="password" id="confirm-password" placeholder="ยืนยันรหัสผ่าน" required>
-    <button type="submit">Register</button>
+document.addEventListener("DOMContentLoaded", () => {
 
-</form>
-    
+    const form = document.getElementById("registerForm");
 
-    <label for="email">
-        <p class="mt-3">
-            มีบัญชีอยู่แล้ว ?
-        <a href="shop.html">เข้าสู่ระบบ</a>
-        </p>
-    </label>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="supabase.js"></script>
+    if(!form){
+        console.error("ไม่พบ form id='registerForm'");
+        return;
+    }
 
-    <script src="register.js"></script>
-</body>
-</html>
+    form.addEventListener("submit", async (event) => {
+
+        event.preventDefault();
+
+        const fullname =
+        document.getElementById("fullname").value.trim();
+
+        const email =
+        document.getElementById("email").value.trim().toLowerCase();
+
+        const password =
+        document.getElementById("password").value;
+
+        const confirmPassword =
+        document.getElementById("confirm-password").value;
+
+        const registerBtn =
+        form.querySelector("button[type='submit']");
+
+        if(!fullname || !email || !password || !confirmPassword){
+
+            Swal.fire({
+                icon:"warning",
+                title:"กรอกข้อมูลไม่ครบ",
+                text:"กรุณากรอกชื่อ อีเมล และรหัสผ่านให้ครบ"
+            });
+
+            return;
+        }
+
+        if(password.length < 6){
+
+            Swal.fire({
+                icon:"warning",
+                title:"รหัสผ่านสั้นเกินไป",
+                text:"กรุณาใช้รหัสผ่านอย่างน้อย 6 ตัวอักษร"
+            });
+
+            return;
+        }
+
+        if(password !== confirmPassword){
+
+            Swal.fire({
+                icon:"warning",
+                title:"รหัสผ่านไม่ตรงกัน",
+                text:"กรุณายืนยันรหัสผ่านให้ตรงกัน"
+            });
+
+            return;
+        }
+
+        if(typeof supabaseClient === "undefined"){
+
+            Swal.fire({
+                icon:"error",
+                title:"ไม่พบ Supabase",
+                text:"กรุณาตรวจสอบว่าไฟล์ supabase.js ถูกโหลดก่อน register.js"
+            });
+
+            return;
+        }
+
+        try{
+
+            registerBtn.disabled = true;
+            registerBtn.textContent = "กำลังสมัคร...";
+
+            const { data, error } =
+            await supabaseClient.auth.signUp({
+                email:email,
+                password:password,
+                options:{
+                    data:{
+                        fullname:fullname
+                    }
+                }
+            });
+
+            if(error){
+
+                let message = error.message;
+
+                if(message.toLowerCase().includes("email rate limit") || message.toLowerCase().includes("rate limit")){
+                    message = "ระบบส่งอีเมลยืนยันเกินลิมิตแล้ว กรุณารอสักพัก หรือปิด Confirm email ตอนทดสอบ";
+                }
+
+                Swal.fire({
+                    icon:"error",
+                    title:"สมัครสมาชิกไม่สำเร็จ",
+                    text:message
+                });
+
+                return;
+            }
+
+            Swal.fire({
+                icon:"success",
+                title:"สมัครสมาชิกสำเร็จ",
+                text:"สามารถกลับไปล็อคอินที่หน้าร้านค้าได้เลย",
+                confirmButtonText:"ไปหน้าร้านค้า"
+            }).then(() => {
+                window.location.href = "shop.html";
+            });
+
+        }
+        catch(err){
+
+            Swal.fire({
+                icon:"error",
+                title:"System Error",
+                text:err.message
+            });
+
+        }
+        finally{
+
+            registerBtn.disabled = false;
+            registerBtn.textContent = "Register";
+
+        }
+
+    });
+
+});

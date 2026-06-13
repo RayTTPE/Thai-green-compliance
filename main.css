@@ -1621,3 +1621,215 @@ footer{
         padding:30px 22px;
     }
 }
+/* =========================
+   Premium Standards Heading Fix
+========================= */
+
+#services .section-heading{
+    max-width:980px;
+    margin:0 auto 70px;
+    text-align:center;
+}
+
+#services .section-heading > span{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:9px 16px;
+    border-radius:999px;
+    color:var(--green);
+    background:rgba(108,255,143,.08);
+    border:1px solid rgba(108,255,143,.18);
+    box-shadow:0 0 30px rgba(108,255,143,.08);
+    font-weight:800;
+    letter-spacing:.4px;
+    margin-bottom:20px;
+}
+
+#services .section-heading h2{
+    font-size:clamp(56px,7vw,96px);
+    line-height:.95;
+    letter-spacing:-4px;
+    margin-bottom:20px;
+    color:#ffffff;
+}
+
+#services .section-heading h2 span{
+    display:inline-block;
+    font-size:1em;
+    color:transparent;
+    background:linear-gradient(135deg,#eaffef 0%,#9dffb6 35%,#6CFF8F 70%,#24d875 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    text-shadow:none;
+    filter:drop-shadow(0 0 22px rgba(108,255,143,.22));
+    position:relative;
+}
+
+#services .section-heading h2 span::after{
+    content:"";
+    position:absolute;
+    left:4%;
+    right:4%;
+    bottom:-10px;
+    height:6px;
+    border-radius:999px;
+    background:linear-gradient(90deg,transparent,var(--green),transparent);
+    box-shadow:0 0 22px rgba(108,255,143,.35);
+    opacity:.75;
+}
+
+#services .section-heading p{
+    max-width:680px;
+    margin:26px auto 0;
+    color:var(--muted);
+    font-size:18px;
+    line-height:1.8;
+}
+
+@media(max-width:600px){
+    #services .section-heading h2{
+        font-size:clamp(42px,13vw,58px);
+        letter-spacing:-2px;
+    }
+
+    #services .section-heading{
+        margin-bottom:45px;
+    }
+}
+/* =========================
+   Real Cannabis Plant Visual
+   ใช้รูปจริงแทน CSS-drawn plant
+========================= */
+
+:root{
+    --plant-image:url("https://www.cannaconnection.com/7992/white-widow-xxl-autoflowering.jpg");
+}
+
+.cannabis-plant{
+    position:absolute;
+    left:50%;
+    bottom:42px;
+    width:360px;
+    height:405px;
+    transform:translateX(-50%);
+    z-index:3;
+    pointer-events:none;
+    animation:realPlantSway 5.5s ease-in-out infinite;
+}
+
+/* ซ่อนชิ้นส่วนใบที่วาดด้วย CSS เดิม แต่เหลือ glow ไว้ */
+.cannabis-plant > *:not(.plant-glow){
+    display:none !important;
+}
+
+.cannabis-plant::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:var(--plant-image);
+    background-repeat:no-repeat;
+    background-position:center bottom;
+    background-size:contain;
+    filter:
+    drop-shadow(0 0 14px rgba(108,255,143,.25))
+    drop-shadow(0 0 34px rgba(108,255,143,.16));
+    animation:realPlantBreath 4.2s ease-in-out infinite;
+    z-index:3;
+}
+
+.cannabis-plant::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    bottom:26px;
+    width:270px;
+    height:270px;
+    transform:translateX(-50%);
+    border-radius:50%;
+    background:
+    radial-gradient(circle, rgba(108,255,143,.13), transparent 66%);
+    border:1px solid rgba(108,255,143,.08);
+    box-shadow:
+    inset 0 0 40px rgba(108,255,143,.04),
+    0 0 45px rgba(108,255,143,.08);
+    z-index:1;
+    animation:plantHalo 5s ease-in-out infinite;
+}
+
+.plant-glow{
+    display:block !important;
+    position:absolute;
+    left:50%;
+    bottom:76px;
+    width:260px;
+    height:260px;
+    transform:translateX(-50%);
+    border-radius:50%;
+    background:rgba(108,255,143,.18);
+    filter:blur(58px);
+    z-index:0;
+    animation:plantGlowPulse 4s ease-in-out infinite;
+}
+
+/* ให้ sensor/chip อยู่หน้ารูป */
+.sensor-map,
+.data-chip,
+.scan-line{
+    z-index:6;
+}
+
+/* scan line ดูเหมือนสแกนผ่านต้นจริง */
+.scan-line{
+    height:2px;
+    left:54px;
+    right:54px;
+    opacity:.9;
+    mix-blend-mode:screen;
+}
+
+@keyframes realPlantSway{
+    0%,100%{
+        transform:translateX(-50%) rotate(-1.2deg);
+    }
+    50%{
+        transform:translateX(-50%) rotate(1.4deg);
+    }
+}
+
+@keyframes realPlantBreath{
+    0%,100%{
+        transform:translateY(0) scale(1);
+        filter:
+        drop-shadow(0 0 14px rgba(108,255,143,.25))
+        drop-shadow(0 0 34px rgba(108,255,143,.16));
+    }
+    50%{
+        transform:translateY(-8px) scale(1.025);
+        filter:
+        drop-shadow(0 0 22px rgba(108,255,143,.34))
+        drop-shadow(0 0 52px rgba(108,255,143,.22));
+    }
+}
+
+@keyframes plantHalo{
+    0%,100%{
+        opacity:.55;
+        transform:translateX(-50%) scale(1);
+    }
+    50%{
+        opacity:.85;
+        transform:translateX(-50%) scale(1.08);
+    }
+}
+
+@keyframes plantGlowPulse{
+    0%,100%{
+        opacity:.75;
+        transform:translateX(-50%) scale(1);
+    }
+    50%{
+        opacity:1;
+        transform:translateX(-50%) scale(1.12);
+    }
+}

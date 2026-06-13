@@ -1,307 +1,256 @@
-```html
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
 <meta charset="UTF-8">
-<title>Payment</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment | Thai Green Compliance</title>
 
-<style>
-body{
-    background:#0b1118;
-    color:white;
-    font-family:Poppins,sans-serif;
-    text-align:center;
-    padding:40px;
-}
-
-.timer{
-    font-size:40px;
-    color:#6CFF8F;
-}
-
-button{
-    padding:15px 25px;
-    margin-top:20px;
-    cursor:pointer;
-}
-</style>
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="payment.css">
 </head>
 
 <body>
+<div class="eco-bg eco-bg-one"></div>
+<div class="eco-bg eco-bg-two"></div>
+<div class="grid-overlay"></div>
 
-<h1>💳 ชำระเงิน</h1>
+<header class="order-navbar">
+    <a href="shop.html" class="brand-link">
+        <span class="brand-mark">TGC</span>
+        <span class="brand-text">Thai Green Compliance</span>
+    </a>
+    <nav class="mini-nav">
+        <a href="checkout.html">Back</a>
+        <a href="shop.html">Store</a>
+    </nav>
+</header>
 
-<div id="paymentInfo"></div>
+<main class="payment-page">
+    <section class="payment-hero">
+        <div>
+            <span class="hero-kicker">Secure Payment</span>
+            <h1>ชำระเงิน</h1>
+            <p>สแกน QR เพื่อชำระเงินตามยอดคำสั่งซื้อ ระบบจะบันทึกออเดอร์หลังยืนยันการชำระเงินสำเร็จ</p>
+        </div>
 
-<h2 class="timer" id="timer">15:00</h2>
+        <div class="stepper" aria-label="Checkout steps">
+            <div class="step done"><span>✓</span><p>Cart</p></div>
+            <div class="step done"><span>✓</span><p>Delivery</p></div>
+            <div class="step active"><span>3</span><p>Payment</p></div>
+        </div>
+    </section>
 
-<img src="qr.png" width="300">
+    <section class="payment-layout">
+        <div class="pay-card qr-card">
+            <div class="timer-ring">
+                <div>
+                    <span>เวลาชำระเงิน</span>
+                    <strong id="timer">15:00</strong>
+                </div>
+            </div>
 
-<br>
+            <div class="qr-frame">
+                <img src="qr.png" alt="Payment QR Code" onerror="this.style.display='none';document.getElementById('qrFallback').style.display='grid';">
+                <div id="qrFallback" class="qr-fallback">QR</div>
+            </div>
 
-<button onclick="paymentSuccess()">
-✅ จำลองชำระเงินสำเร็จ
-</button>
+            <p class="qr-note">* หน้านี้ยังเป็นโหมดจำลองการชำระเงิน สำหรับทดสอบ flow ระบบก่อนต่อ payment gateway จริง</p>
+
+            <div class="progress-track">
+                <div id="timeProgress" class="progress-bar"></div>
+            </div>
+        </div>
+
+        <aside class="pay-card info-card">
+            <span class="section-tag">Payment Summary</span>
+            <h2>รายละเอียดคำสั่งซื้อ</h2>
+
+            <div id="paymentInfo" class="payment-info"></div>
+
+            <button id="payBtn" class="primary-btn" type="button" onclick="paymentSuccess()">
+                ✅ จำลองชำระเงินสำเร็จ
+            </button>
+
+            <a href="checkout.html" class="secondary-btn">← กลับไปแก้ข้อมูลผู้รับ</a>
+        </aside>
+    </section>
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
 
 <script>
-
-const orderData =
-JSON.parse(
-localStorage.getItem("checkoutData")
-);
+const orderData = JSON.parse(localStorage.getItem("checkoutData"));
 
 if(!orderData){
     window.location.href = "shop.html";
 }
 
-// ===============================
-// แสดงรายการสินค้า
-// ===============================
-
-function formatProducts(products){
-    return products
-        .map(item =>
-            `${item.name || ("สินค้า " + item.id)} / ${item.qty} ชิ้น`
-        )
-        .join(", ");
+function escapeHTML(value){
+    return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
 
-document.getElementById("paymentInfo").innerHTML = `
-<h3>ยอดชำระ : ${orderData.total_price} บาท</h3>
-<p>รายการสินค้า : ${formatProducts(orderData.products)}</p>
-`;
+function showToast(message){
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+}
 
-// ===============================
-// TIMER
-// ===============================
+function formatProducts(products){
+    return (products || [])
+    .map(item => `${item.name || ("สินค้า " + item.id)} / ${item.qty} ชิ้น`)
+    .join(", ");
+}
+
+function productsHTML(products){
+    return (products || []).map((item,index)=>{
+        const price = Number(item.price) || 0;
+        const qty = Number(item.qty) || 0;
+        const subtotal = price * qty;
+        return `
+        <div class="product-row">
+            <span>${index + 1}. ${escapeHTML(item.name || ("สินค้า " + item.id))}</span>
+            <strong>${qty} ชิ้น · ${subtotal.toLocaleString()} บาท</strong>
+        </div>
+        `;
+    }).join("");
+}
+
+function renderPaymentInfo(){
+    const total = Number(orderData.total_price) || 0;
+    document.getElementById("paymentInfo").innerHTML = `
+        <div class="amount-box">
+            <span>ยอดชำระ</span>
+            <strong>${total.toLocaleString()} บาท</strong>
+        </div>
+
+        <div class="info-group">
+            <h3>สินค้า</h3>
+            ${productsHTML(orderData.products)}
+        </div>
+
+        <div class="info-group">
+            <h3>ผู้รับ</h3>
+            <p>${escapeHTML(orderData.receiver_name)}</p>
+            <p>${escapeHTML(orderData.receiver_phone)}</p>
+            <p>${escapeHTML(orderData.receiver_address)}</p>
+        </div>
+    `;
+}
 
 let timeLeft = 15 * 60;
+const totalTime = timeLeft;
+const timer = document.getElementById("timer");
+const timeProgress = document.getElementById("timeProgress");
 
-const timer =
-document.getElementById("timer");
+const countdown = setInterval(()=>{
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
 
-const countdown =
-setInterval(()=>{
-
-    const minutes =
-    Math.floor(timeLeft / 60);
-
-    const seconds =
-    timeLeft % 60;
-
-    timer.innerHTML =
-    `${minutes}:${seconds.toString().padStart(2,"0")}`;
+    timer.textContent = `${minutes}:${seconds.toString().padStart(2,"0")}`;
+    timeProgress.style.width = `${Math.max(0, (timeLeft / totalTime) * 100)}%`;
 
     timeLeft--;
 
     if(timeLeft < 0){
-
         clearInterval(countdown);
-
         alert("หมดเวลาชำระเงิน");
-
-        window.location.href =
-        "shop.html";
+        window.location.href = "shop.html";
     }
-
 },1000);
 
-// ===============================
-// PAYMENT SUCCESS
-// ===============================
-
 async function paymentSuccess(){
+    const payBtn = document.getElementById("payBtn");
+    payBtn.disabled = true;
+    payBtn.textContent = "กำลังบันทึกคำสั่งซื้อ...";
 
-try{
+    try{
+        const productsText = formatProducts(orderData.products);
 
-    console.log("ORDER DATA", orderData);
+        const { error: orderError } = await supabaseClient
+        .from("orders")
+        .insert([{
+            user_email: orderData.user_email,
+            receiver_name: orderData.receiver_name,
+            receiver_phone: orderData.receiver_phone,
+            receiver_address: orderData.receiver_address,
+            products: productsText,
+            total_price: orderData.total_price,
+            payment_status: "paid",
+            order_status: "processing"
+        }]);
 
-    const productsText =
-    formatProducts(orderData.products);
-
-    // ------------------
-    // INSERT ORDER
-    // ------------------
-
-    const {
-        error: orderError
-    }
-    =
-    await supabaseClient
-    .from("orders")
-    .insert([{
-
-        user_email:
-        orderData.user_email,
-
-        receiver_name:
-        orderData.receiver_name,
-
-        receiver_phone:
-        orderData.receiver_phone,
-
-        receiver_address:
-        orderData.receiver_address,
-
-        products:
-        productsText,
-
-        total_price:
-        orderData.total_price,
-
-        payment_status:
-        "paid",
-
-        order_status:
-        "processing"
-
-    }]);
-
-    if(orderError){
-
-        console.error(orderError);
-
-        alert(
-        "Order Error : " +
-        orderError.message
-        );
-
-        return;
-    }
-
-    // ------------------
-    // UPDATE PRODUCT SALES
-    // ------------------
-
-    for(const item of orderData.products){
-
-        console.log(
-        "PROCESS ITEM",
-        item
-        );
-
-        const {
-            data:saleData,
-            error:selectError
-        }
-        =
-        await supabaseClient
-        .from("product_sales")
-        .select("*")
-        .eq("product_id", item.id)
-        .maybeSingle();
-
-        if(selectError){
-
-            console.error(
-            "SELECT ERROR",
-            selectError
-            );
-
-            continue;
+        if(orderError){
+            console.error(orderError);
+            alert("Order Error : " + orderError.message);
+            payBtn.disabled = false;
+            payBtn.textContent = "✅ จำลองชำระเงินสำเร็จ";
+            return;
         }
 
-        if(saleData){
-
-            const {
-                error:updateError
-            }
-            =
-            await supabaseClient
+        for(const item of orderData.products){
+            const { data:saleData, error:selectError } = await supabaseClient
             .from("product_sales")
-            .update({
+            .select("*")
+            .eq("product_id", item.id)
+            .maybeSingle();
 
-                total_sold:
-                Number(
-                saleData.total_sold
-                ) +
-                Number(item.qty),
-
-                updated_at:
-                new Date()
-                .toISOString()
-
-            })
-            .eq(
-            "product_id",
-            item.id
-            );
-
-            if(updateError){
-
-                console.error(
-                "UPDATE ERROR",
-                updateError
-                );
-
+            if(selectError){
+                console.error("SELECT ERROR", selectError);
+                continue;
             }
 
-        }else{
+            if(saleData){
+                const { error:updateError } = await supabaseClient
+                .from("product_sales")
+                .update({
+                    total_sold: Number(saleData.total_sold) + Number(item.qty),
+                    updated_at: new Date().toISOString()
+                })
+                .eq("product_id", item.id);
 
-            const {
-                error:insertError
+                if(updateError){ console.error("UPDATE ERROR", updateError); }
+            }else{
+                const { error:insertError } = await supabaseClient
+                .from("product_sales")
+                .insert([{
+                    product_id: item.id,
+                    product_name: item.name || ("สินค้า " + item.id),
+                    total_sold: Number(item.qty)
+                }]);
+
+                if(insertError){ console.error("INSERT ERROR", insertError); }
             }
-            =
-            await supabaseClient
-            .from("product_sales")
-            .insert([{
-
-                product_id:
-                item.id,
-
-                product_name:
-                item.name ||
-                ("สินค้า " + item.id),
-
-                total_sold:
-                Number(item.qty)
-
-            }]);
-
-            if(insertError){
-
-                console.error(
-                "INSERT ERROR",
-                insertError
-                );
-
-            }
-
         }
 
+        localStorage.removeItem("cart");
+        localStorage.removeItem("checkoutData");
+
+        showToast("ชำระเงินสำเร็จ กำลังกลับหน้าร้านค้า...");
+        setTimeout(()=>{
+            window.location.href = "shop.html";
+        }, 900);
     }
-
-    localStorage.removeItem("cart");
-    localStorage.removeItem("checkoutData");
-
-    alert(
-    "ชำระเงินสำเร็จ"
-    );
-
-    window.location.href =
-    "shop.html";
-
-}
-catch(err){
-
-    console.error(err);
-
-    alert(
-    "SYSTEM ERROR : " +
-    err.message
-    );
-
+    catch(err){
+        console.error(err);
+        alert("SYSTEM ERROR : " + err.message);
+        payBtn.disabled = false;
+        payBtn.textContent = "✅ จำลองชำระเงินสำเร็จ";
+    }
 }
 
-}
-
+renderPaymentInfo();
 </script>
 
 </body>
 </html>
-```

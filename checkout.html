@@ -4,61 +4,114 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checkout</title>
+<title>🛒 ตะกร้าสินค้า</title>
 
 <style>
 
-body{
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 font-family:Poppins,sans-serif;
+}
+
+body{
 background:#0b1118;
 color:white;
 padding:30px;
 }
 
 h1{
+text-align:center;
+margin-bottom:30px;
 color:#6CFF8F;
 }
 
-.checkout-box{
-max-width:800px;
+.cart-container{
+max-width:1200px;
 margin:auto;
 }
 
-.order-item{
+.cart-item{
 background:rgba(255,255,255,0.05);
-padding:15px;
+border:1px solid rgba(255,255,255,0.1);
+border-radius:20px;
+padding:20px;
+margin-bottom:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.cart-item:hover{
+box-shadow:0 0 20px rgba(108,255,143,0.2);
+}
+
+.item-info h3{
+color:#6CFF8F;
 margin-bottom:10px;
-border-radius:10px;
 }
 
-input,
-textarea{
-width:100%;
-padding:12px;
-margin-top:10px;
-margin-bottom:15px;
-border:none;
-border-radius:8px;
+.item-info p{
+margin:5px 0;
 }
 
-button{
-padding:14px 25px;
-background:#6CFF8F;
+.delete-btn{
+background:#ff4d4d;
+color:white;
 border:none;
+padding:12px 20px;
 border-radius:10px;
 cursor:pointer;
 font-weight:bold;
 }
 
-button:hover{
-opacity:.9;
+.delete-btn:hover{
+background:#ff2222;
 }
 
-.total{
-font-size:22px;
+.total-box{
+background:#111827;
+padding:25px;
+border-radius:20px;
+text-align:center;
+font-size:24px;
 font-weight:bold;
 color:#6CFF8F;
+margin-top:30px;
+}
+
+.btn{
+display:inline-block;
+padding:14px 30px;
+border-radius:12px;
+text-decoration:none;
+font-weight:600;
 margin-top:20px;
+margin-right:10px;
+cursor:pointer;
+border:none;
+}
+
+.back-btn{
+background:#6CFF8F;
+color:black;
+}
+
+.clear-btn{
+background:#ff4d4d;
+color:white;
+}
+
+.empty{
+text-align:center;
+font-size:22px;
+color:#94a3b8;
+margin-top:50px;
+}
+
+.buttons{
+text-align:center;
 }
 
 </style>
@@ -67,92 +120,121 @@ margin-top:20px;
 
 <body>
 
-<div class="checkout-box">
+<h1>🛒 ตะกร้าสินค้า</h1>
 
-<h1>📦 สรุปรายการสินค้า</h1>
+<div class="cart-container">
 
-<div id="orderList"></div>
+<div id="cartItems"></div>
 
-<div class="total" id="totalPrice">
-ยอดรวม : 0 บาท
+<div class="total-box" id="total">
+ยอดรวมทั้งหมด : 0 บาท
 </div>
 
-<hr>
+<div class="buttons">
 
-<h2>ข้อมูลผู้รับ</h2>
+<a href="shop.html" class="btn back-btn">
+← กลับไปร้านค้า
+</a>
 
-<input
-id="receiverName"
-type="text"
-placeholder="ชื่อผู้รับ">
+<button class="btn clear-btn" onclick="clearCart()">
+🗑 ล้างตะกร้า
+</button>
+<button
+class="btn back-btn"
+onclick="goCheckout()">
 
-<input
-id="phone"
-type="tel"
-placeholder="เบอร์โทรศัพท์">
+📦 ดำเนินการสั่งซื้อ
 
-<textarea
-id="address"
-rows="4"
-placeholder="ที่อยู่จัดส่ง"></textarea>
-
-<button onclick="goPayment()">
-ไปหน้าชำระเงิน
 </button>
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase.js"></script>
+</div>
 
 <script>
 
-// โหลดสินค้า
+let cart =
+JSON.parse(localStorage.getItem("cart")) || [];
+
+function goCheckout(){
 
 const cart =
-JSON.parse(
-localStorage.getItem("cart")
-) || [];
-
-const orderList =
-document.getElementById("orderList");
-
-const totalPrice =
-document.getElementById("totalPrice");
-
-let total = 0;
-let html = "";
+JSON.parse(localStorage.getItem("cart")) || [];
 
 if(cart.length === 0){
 
-alert("ไม่มีสินค้าในตะกร้า");
+alert(
+"กรุณาเพิ่มสินค้าลงตะกร้าก่อน\nPlease add products to your cart first."
+);
+
+return;
+}
 
 window.location.href =
-"shop.html";
+"checkout.html";
 
 }
 
-// แสดงสินค้า
+function renderCart(){
 
-cart.forEach(item=>{
+const cartItems =
+document.getElementById("cartItems");
+
+const totalBox =
+document.getElementById("total");
+
+cart =
+JSON.parse(localStorage.getItem("cart")) || [];
+
+if(cart.length === 0){
+
+cartItems.innerHTML = `
+<div class="empty">
+ไม่มีสินค้าในตะกร้า
+</div>
+`;
+
+totalBox.innerHTML =
+"ยอดรวมทั้งหมด : 0 บาท";
+
+return;
+
+}
+
+cartItems.innerHTML = "";
+
+let total = 0;
+
+cart.forEach((item,index)=>{
 
 const subtotal =
-Number(item.price) *
-Number(item.qty);
+item.price * item.qty;
 
 total += subtotal;
 
-html += `
+cartItems.innerHTML += `
 
-<div class="order-item">
+<div class="cart-item">
+
+<div class="item-info">
 
 <h3>${item.name}</h3>
 
-<p>จำนวน : ${item.qty}</p>
-
 <p>ราคา : ${item.price} บาท</p>
 
+<p>จำนวน : ${item.qty}</p>
+
 <p>รวม : ${subtotal} บาท</p>
+
+</div>
+
+<button
+class="delete-btn"
+onclick="removeItem(${index})">
+
+❌ ลบสินค้า
+
+</button>
 
 </div>
 
@@ -160,98 +242,44 @@ html += `
 
 });
 
-orderList.innerHTML = html;
-
-totalPrice.innerHTML =
-"ยอดรวม : " +
+totalBox.innerHTML =
+"ยอดรวมทั้งหมด : " +
 total.toLocaleString() +
 " บาท";
 
-
-// ไปหน้าชำระเงิน
-
-async function goPayment(){
-
-const {
-data:{user}
-}
-=
-await supabaseClient.auth.getUser();
-
-if(!user){
-
-alert(
-"กรุณา Login ก่อน"
-);
-
-window.location.href =
-"shop.html";
-
-return;
-
 }
 
-const receiverName =
-document.getElementById(
-"receiverName"
-).value.trim();
+function removeItem(index){
 
-const phone =
-document.getElementById(
-"phone"
-).value.trim();
-
-const address =
-document.getElementById(
-"address"
-).value.trim();
-
-if(
-!receiverName ||
-!phone ||
-!address
-){
-
-alert(
-"กรุณากรอกข้อมูลให้ครบ\nPlease fill all information."
-);
-
-return;
-
-}
-
-const checkoutData = {
-
-user_email:
-user.email,
-
-receiver_name:
-receiverName,
-
-receiver_phone:
-phone,
-
-receiver_address:
-address,
-
-products:
-cart,
-
-total_price:
-total
-
-};
+cart.splice(index,1);
 
 localStorage.setItem(
-"checkoutData",
-JSON.stringify(checkoutData)
+"cart",
+JSON.stringify(cart)
 );
 
-alert("กำลังไป payment");
-window.location.href =
-"payment.html";
+renderCart();
 
 }
+
+function clearCart(){
+
+if(confirm("ต้องการล้างตะกร้าทั้งหมดหรือไม่?")){
+
+cart = [];
+
+localStorage.setItem(
+"cart",
+JSON.stringify(cart)
+);
+
+renderCart();
+
+}
+
+}
+
+renderCart();
 
 </script>
 

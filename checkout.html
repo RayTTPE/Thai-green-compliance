@@ -1,286 +1,204 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🛒 ตะกร้าสินค้า</title>
+<title>Checkout | Thai Green Compliance</title>
 
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Poppins,sans-serif;
-}
-
-body{
-background:#0b1118;
-color:white;
-padding:30px;
-}
-
-h1{
-text-align:center;
-margin-bottom:30px;
-color:#6CFF8F;
-}
-
-.cart-container{
-max-width:1200px;
-margin:auto;
-}
-
-.cart-item{
-background:rgba(255,255,255,0.05);
-border:1px solid rgba(255,255,255,0.1);
-border-radius:20px;
-padding:20px;
-margin-bottom:20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.cart-item:hover{
-box-shadow:0 0 20px rgba(108,255,143,0.2);
-}
-
-.item-info h3{
-color:#6CFF8F;
-margin-bottom:10px;
-}
-
-.item-info p{
-margin:5px 0;
-}
-
-.delete-btn{
-background:#ff4d4d;
-color:white;
-border:none;
-padding:12px 20px;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
-}
-
-.delete-btn:hover{
-background:#ff2222;
-}
-
-.total-box{
-background:#111827;
-padding:25px;
-border-radius:20px;
-text-align:center;
-font-size:24px;
-font-weight:bold;
-color:#6CFF8F;
-margin-top:30px;
-}
-
-.btn{
-display:inline-block;
-padding:14px 30px;
-border-radius:12px;
-text-decoration:none;
-font-weight:600;
-margin-top:20px;
-margin-right:10px;
-cursor:pointer;
-border:none;
-}
-
-.back-btn{
-background:#6CFF8F;
-color:black;
-}
-
-.clear-btn{
-background:#ff4d4d;
-color:white;
-}
-
-.empty{
-text-align:center;
-font-size:22px;
-color:#94a3b8;
-margin-top:50px;
-}
-
-.buttons{
-text-align:center;
-}
-
-</style>
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="checkout.css">
 </head>
 
 <body>
+<div class="eco-bg eco-bg-one"></div>
+<div class="eco-bg eco-bg-two"></div>
+<div class="grid-overlay"></div>
 
-<h1>🛒 ตะกร้าสินค้า</h1>
+<header class="order-navbar">
+    <a href="shop.html" class="brand-link">
+        <span class="brand-mark">TGC</span>
+        <span class="brand-text">Thai Green Compliance</span>
+    </a>
+    <nav class="mini-nav">
+        <a href="cart.html">Cart</a>
+        <a href="shop.html">Store</a>
+    </nav>
+</header>
 
-<div class="cart-container">
+<main class="checkout-page">
+    <section class="checkout-hero">
+        <div>
+            <span class="hero-kicker">Delivery Information</span>
+            <h1>สรุปคำสั่งซื้อ</h1>
+            <p>ยืนยันรายการสินค้าและกรอกข้อมูลผู้รับ เพื่อเข้าสู่ขั้นตอนชำระเงินอย่างปลอดภัย</p>
+        </div>
 
-<div id="cartItems"></div>
+        <div class="stepper" aria-label="Checkout steps">
+            <div class="step done"><span>✓</span><p>Cart</p></div>
+            <div class="step active"><span>2</span><p>Delivery</p></div>
+            <div class="step"><span>3</span><p>Payment</p></div>
+        </div>
+    </section>
 
-<div class="total-box" id="total">
-ยอดรวมทั้งหมด : 0 บาท
-</div>
+    <section class="checkout-layout">
+        <div class="checkout-card order-card">
+            <div class="section-head">
+                <span class="section-tag">Order Review</span>
+                <h2>รายการสินค้า</h2>
+            </div>
+            <div id="orderList" class="order-list"></div>
+        </div>
 
-<div class="buttons">
+        <aside class="checkout-card form-card">
+            <div class="section-head">
+                <span class="section-tag">Customer Details</span>
+                <h2>ข้อมูลผู้รับ</h2>
+            </div>
 
-<a href="shop.html" class="btn back-btn">
-← กลับไปร้านค้า
-</a>
+            <div class="user-strip">
+                <span>Account</span>
+                <strong id="accountEmail">กำลังตรวจสอบ...</strong>
+            </div>
 
-<button class="btn clear-btn" onclick="clearCart()">
-🗑 ล้างตะกร้า
-</button>
-<button
-class="btn back-btn"
-onclick="goCheckout()">
+            <form id="checkoutForm" class="checkout-form">
+                <label for="receiverName">ชื่อผู้รับ</label>
+                <input id="receiverName" type="text" placeholder="เช่น คุณสมชาย" autocomplete="name" required>
 
-📦 ดำเนินการสั่งซื้อ
+                <label for="phone">เบอร์โทรศัพท์</label>
+                <input id="phone" type="tel" placeholder="เช่น 0943793889" autocomplete="tel" required>
 
-</button>
+                <label for="address">ที่อยู่จัดส่ง</label>
+                <textarea id="address" rows="5" placeholder="บ้านเลขที่ / ตำบล / อำเภอ / จังหวัด / รหัสไปรษณีย์" autocomplete="street-address" required></textarea>
 
-</div>
+                <div class="total-panel">
+                    <span>ยอดรวมทั้งหมด</span>
+                    <strong id="totalPrice">0 บาท</strong>
+                </div>
 
-</div>
+                <button class="primary-btn" type="submit">ไปหน้าชำระเงิน →</button>
+                <a href="cart.html" class="secondary-btn">← กลับไปแก้ไขตะกร้า</a>
+            </form>
+        </aside>
+    </section>
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
 
 <script>
-
-let cart =
-JSON.parse(localStorage.getItem("cart")) || [];
-
-function goCheckout(){
-
-const cart =
-JSON.parse(localStorage.getItem("cart")) || [];
-
-if(cart.length === 0){
-
-alert(
-"กรุณาเพิ่มสินค้าลงตะกร้าก่อน\nPlease add products to your cart first."
-);
-
-return;
-}
-
-window.location.href =
-"checkout.html";
-
-}
-
-function renderCart(){
-
-const cartItems =
-document.getElementById("cartItems");
-
-const totalBox =
-document.getElementById("total");
-
-cart =
-JSON.parse(localStorage.getItem("cart")) || [];
-
-if(cart.length === 0){
-
-cartItems.innerHTML = `
-<div class="empty">
-ไม่มีสินค้าในตะกร้า
-</div>
-`;
-
-totalBox.innerHTML =
-"ยอดรวมทั้งหมด : 0 บาท";
-
-return;
-
-}
-
-cartItems.innerHTML = "";
-
+const cart = JSON.parse(localStorage.getItem("cart")) || [];
+const orderList = document.getElementById("orderList");
+const totalPrice = document.getElementById("totalPrice");
+const accountEmail = document.getElementById("accountEmail");
+const checkoutForm = document.getElementById("checkoutForm");
 let total = 0;
+let currentUser = null;
 
-cart.forEach((item,index)=>{
+function escapeHTML(value){
+    return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
 
-const subtotal =
-item.price * item.qty;
+function showToast(message){
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+}
 
-total += subtotal;
+async function guardCheckout(){
+    if(cart.length === 0){
+        alert("ไม่มีสินค้าในตะกร้า");
+        window.location.href = "shop.html";
+        return;
+    }
 
-cartItems.innerHTML += `
+    if(typeof supabaseClient === "undefined"){
+        alert("ไม่พบระบบ Login กรุณากลับไปหน้าร้านค้าเพื่อล็อคอินก่อน");
+        window.location.href = "shop.html";
+        return;
+    }
 
-<div class="cart-item">
+    const { data:{ user }, error } = await supabaseClient.auth.getUser();
+    if(error){ console.error(error); }
 
-<div class="item-info">
+    if(!user){
+        alert("กรุณา Login ก่อนดำเนินการสั่งซื้อ");
+        window.location.href = "shop.html";
+        return;
+    }
 
-<h3>${item.name}</h3>
+    currentUser = user;
+    accountEmail.textContent = user.email;
+    renderOrder();
+}
 
-<p>ราคา : ${item.price} บาท</p>
+function renderOrder(){
+    total = 0;
+    orderList.innerHTML = cart.map((item,index)=>{
+        const price = Number(item.price) || 0;
+        const qty = Number(item.qty) || 0;
+        const subtotal = price * qty;
+        total += subtotal;
+        return `
+        <article class="order-item">
+            <div class="item-index">${index + 1}</div>
+            <div>
+                <h3>${escapeHTML(item.name || "สินค้า")}</h3>
+                <p>จำนวน ${qty} ชิ้น · ราคา ${price.toLocaleString()} บาท</p>
+            </div>
+            <strong>${subtotal.toLocaleString()} บาท</strong>
+        </article>
+        `;
+    }).join("");
 
-<p>จำนวน : ${item.qty}</p>
+    totalPrice.textContent = total.toLocaleString() + " บาท";
+}
 
-<p>รวม : ${subtotal} บาท</p>
+checkoutForm.addEventListener("submit", function(e){
+    e.preventDefault();
 
-</div>
+    if(!currentUser){
+        showToast("กรุณา Login ก่อน");
+        window.location.href = "shop.html";
+        return;
+    }
 
-<button
-class="delete-btn"
-onclick="removeItem(${index})">
+    const receiverName = document.getElementById("receiverName").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const address = document.getElementById("address").value.trim();
 
-❌ ลบสินค้า
+    if(!receiverName || !phone || !address){
+        showToast("กรุณากรอกข้อมูลให้ครบ");
+        return;
+    }
 
-</button>
+    const checkoutData = {
+        user_email: currentUser.email,
+        receiver_name: receiverName,
+        receiver_phone: phone,
+        receiver_address: address,
+        products: cart,
+        total_price: total
+    };
 
-</div>
+    localStorage.setItem("checkoutData", JSON.stringify(checkoutData));
+    showToast("กำลังพาไปหน้าชำระเงิน...");
 
-`;
-
+    setTimeout(()=>{
+        window.location.href = "payment.html";
+    }, 650);
 });
 
-totalBox.innerHTML =
-"ยอดรวมทั้งหมด : " +
-total.toLocaleString() +
-" บาท";
-
-}
-
-function removeItem(index){
-
-cart.splice(index,1);
-
-localStorage.setItem(
-"cart",
-JSON.stringify(cart)
-);
-
-renderCart();
-
-}
-
-function clearCart(){
-
-if(confirm("ต้องการล้างตะกร้าทั้งหมดหรือไม่?")){
-
-cart = [];
-
-localStorage.setItem(
-"cart",
-JSON.stringify(cart)
-);
-
-renderCart();
-
-}
-
-}
-
-renderCart();
-
+guardCheckout();
 </script>
 
 </body>

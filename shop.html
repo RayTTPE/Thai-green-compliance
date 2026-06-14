@@ -173,6 +173,65 @@
         </div>
     </div>
 
+
+    <!-- =========================
+         SALES ANALYTICS
+    ========================= -->
+    <section class="sales-dashboard" aria-label="Sales analytics dashboard">
+
+        <div class="dashboard-head">
+            <div>
+                <span class="eyebrow">Realtime Product Analytics</span>
+                <h2>อันดับสินค้าขายดีและสต๊อกคงเหลือ</h2>
+                <p id="dashboardStatus">ระบบจะดึงยอดขายจาก product_sales และแสดงสินค้าให้ครบทุกตัว</p>
+            </div>
+
+            <div class="dashboard-kpis">
+                <div>
+                    <span>Total Sold</span>
+                    <strong id="bestSellerCount">0</strong>
+                </div>
+                <div>
+                    <span>Stock Capacity</span>
+                    <strong id="stockCapacityCount">0</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+
+            <article class="analytics-card ranking-card">
+                <div class="analytics-title">
+                    <span>🏆</span>
+                    <h3>Best Seller Ranking</h3>
+                </div>
+                <div id="rankingList" class="ranking-list"></div>
+            </article>
+
+            <article class="analytics-card candle-card">
+                <div class="analytics-title">
+                    <span>🕯️</span>
+                    <h3>Stock Candle Chart</h3>
+                </div>
+                <p class="chart-note">จำนวนขายแล้ว</p>
+                <div id="candleChart" class="candle-chart"></div>
+            </article>
+
+            <article class="analytics-card pie-card">
+                <div class="analytics-title">
+                    <span>◔</span>
+                    <h3>Sales Share</h3>
+                </div>
+                <div class="pie-wrap">
+                    <canvas id="salesPieChart" aria-label="Sales pie chart"></canvas>
+                    <div id="pieLegend" class="pie-legend"></div>
+                </div>
+            </article>
+
+        </div>
+
+    </section>
+
     <div class="shop-toolbar">
         <div class="search-box">
             <span>⌕</span>
@@ -249,7 +308,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
-<script src="shop.js"></script>
+<script src="shop.js?v=stock-guard-final"></script>
 
 </body>
 </html>

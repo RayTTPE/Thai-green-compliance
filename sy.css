@@ -1620,3 +1620,485 @@ padding:28px 22px;
 }
 
 }
+
+/* =========================
+   Sales Dashboard / Ranking
+========================= */
+
+.sales-dashboard{
+margin:34px 0 42px;
+padding:26px;
+border-radius:34px;
+background:
+linear-gradient(180deg, rgba(255,255,255,0.065), rgba(255,255,255,0.025));
+border:1px solid rgba(108,255,143,0.14);
+box-shadow:0 22px 70px rgba(0,0,0,.32), inset 0 0 42px rgba(108,255,143,.035);
+backdrop-filter:blur(18px);
+position:relative;
+overflow:hidden;
+}
+
+.sales-dashboard::before{
+content:"";
+position:absolute;
+width:360px;
+height:360px;
+right:-140px;
+top:-160px;
+border-radius:50%;
+background:rgba(108,255,143,0.09);
+filter:blur(80px);
+pointer-events:none;
+}
+
+.dashboard-head{
+display:flex;
+justify-content:space-between;
+gap:24px;
+position:relative;
+z-index:2;
+margin-bottom:24px;
+}
+
+.dashboard-head h2{
+font-size:clamp(28px,4vw,48px);
+line-height:1.08;
+margin-top:14px;
+letter-spacing:-1.1px;
+}
+
+.dashboard-head p{
+margin-top:12px;
+color:#aebfb5;
+line-height:1.7;
+}
+
+.dashboard-kpis{
+display:flex;
+gap:14px;
+min-width:280px;
+}
+
+.dashboard-kpis div{
+flex:1;
+padding:18px;
+border-radius:22px;
+background:rgba(0,0,0,0.26);
+border:1px solid rgba(255,255,255,0.08);
+}
+
+.dashboard-kpis span{
+display:block;
+font-size:12px;
+font-weight:800;
+color:#9fb3a9;
+margin-bottom:8px;
+}
+
+.dashboard-kpis strong{
+font-size:32px;
+line-height:1;
+color:var(--green);
+}
+
+.dashboard-grid{
+display:grid;
+grid-template-columns:1fr 1.4fr;
+gap:18px;
+position:relative;
+z-index:2;
+}
+
+.analytics-card{
+position:relative;
+padding:22px;
+border-radius:28px;
+background:rgba(3,9,6,0.68);
+border:1px solid rgba(255,255,255,0.08);
+box-shadow:0 18px 50px rgba(0,0,0,.24);
+overflow:hidden;
+}
+
+.pie-card{
+grid-column:1 / -1;
+}
+
+.analytics-title{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:18px;
+}
+
+.analytics-title span{
+width:42px;
+height:42px;
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(108,255,143,0.1);
+border:1px solid rgba(108,255,143,0.22);
+box-shadow:0 0 22px rgba(108,255,143,.08);
+}
+
+.analytics-title h3{
+font-size:21px;
+letter-spacing:-.3px;
+}
+
+.ranking-list{
+display:grid;
+gap:12px;
+}
+
+.ranking-item{
+display:grid;
+grid-template-columns:48px 1fr auto;
+align-items:center;
+gap:13px;
+padding:13px;
+border-radius:18px;
+background:rgba(255,255,255,0.045);
+border:1px solid rgba(255,255,255,0.065);
+transition:.3s;
+}
+
+.ranking-item:hover{
+transform:translateY(-3px);
+border-color:rgba(108,255,143,.24);
+box-shadow:0 0 26px rgba(108,255,143,.08);
+}
+
+.rank-no{
+width:42px;
+height:42px;
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:linear-gradient(135deg,var(--green),#c9ffd9);
+color:#031109;
+font-weight:900;
+}
+
+.rank-body strong{
+display:block;
+font-size:15px;
+margin-bottom:4px;
+}
+
+.rank-body span{
+font-size:12px;
+color:#9fb3a9;
+}
+
+.rank-sold{
+text-align:right;
+}
+
+.rank-sold strong{
+display:block;
+font-size:20px;
+color:var(--green);
+line-height:1;
+}
+
+.rank-sold span{
+font-size:11px;
+color:#9fb3a9;
+font-weight:800;
+}
+
+.chart-note{
+color:#9fb3a9;
+font-size:13px;
+line-height:1.6;
+margin-top:-8px;
+margin-bottom:16px;
+}
+
+.candle-chart{
+min-height:310px;
+display:flex;
+align-items:flex-end;
+gap:15px;
+overflow-x:auto;
+padding:12px 8px 6px;
+}
+
+.candle-chart::-webkit-scrollbar{
+height:8px;
+}
+
+.candle-chart::-webkit-scrollbar-thumb{
+background:rgba(108,255,143,.26);
+border-radius:999px;
+}
+
+.candle-item{
+min-width:58px;
+height:280px;
+display:grid;
+grid-template-rows:1fr auto auto;
+justify-items:center;
+gap:8px;
+}
+
+.candle-stage{
+position:relative;
+width:38px;
+height:210px;
+display:flex;
+justify-content:center;
+align-items:flex-end;
+}
+
+.candle-wick{
+position:absolute;
+bottom:0;
+width:3px;
+border-radius:999px;
+background:rgba(255,255,255,.22);
+box-shadow:0 0 14px rgba(108,255,143,.12);
+}
+
+.candle-body{
+position:absolute;
+bottom:0;
+width:30px;
+min-height:7px;
+border-radius:9px 9px 4px 4px;
+background:linear-gradient(180deg,#c9ffd9,var(--green-2));
+box-shadow:0 0 22px rgba(108,255,143,.26);
+}
+
+.candle-body.hot{
+background:linear-gradient(180deg,#f7d774,#6CFF8F);
+}
+
+.candle-body.danger{
+background:linear-gradient(180deg,#ffb86b,#ff4d4d);
+box-shadow:0 0 22px rgba(255,77,77,.25);
+}
+
+.candle-item strong{
+color:var(--green);
+font-size:15px;
+}
+
+.candle-item small{
+width:76px;
+color:#aebfb5;
+font-size:11px;
+text-align:center;
+line-height:1.25;
+white-space:normal;
+}
+
+.pie-wrap{
+display:grid;
+grid-template-columns:320px 1fr;
+gap:24px;
+align-items:center;
+}
+
+#salesPieChart{
+max-width:300px;
+max-height:300px;
+margin:auto;
+filter:drop-shadow(0 0 28px rgba(108,255,143,.1));
+}
+
+.pie-legend{
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:10px;
+}
+
+.pie-legend-item,
+.legend-empty{
+display:grid;
+grid-template-columns:14px 1fr auto;
+gap:10px;
+align-items:center;
+padding:11px 12px;
+border-radius:16px;
+background:rgba(255,255,255,0.045);
+border:1px solid rgba(255,255,255,0.06);
+}
+
+.pie-legend-item span{
+width:14px;
+height:14px;
+border-radius:50%;
+box-shadow:0 0 12px currentColor;
+}
+
+.pie-legend-item strong{
+font-size:13px;
+font-weight:800;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.pie-legend-item em{
+font-style:normal;
+color:var(--green);
+font-weight:900;
+}
+
+.legend-empty{
+grid-template-columns:1fr;
+color:#9fb3a9;
+text-align:center;
+}
+
+/* =========================
+   Inventory Add-ons
+========================= */
+
+.inventory-box{
+margin-top:14px;
+padding:14px;
+border-radius:18px;
+background:rgba(0,0,0,0.2);
+border:1px solid rgba(255,255,255,0.055);
+}
+
+.inventory-row{
+display:flex;
+justify-content:space-between;
+gap:12px;
+font-size:12px;
+font-weight:800;
+color:#9fb3a9;
+margin-bottom:10px;
+}
+
+.inventory-row strong{
+color:var(--green);
+}
+
+.stock-meter{
+height:8px;
+border-radius:999px;
+background:rgba(255,255,255,0.08);
+overflow:hidden;
+}
+
+.stock-meter span{
+display:block;
+height:100%;
+border-radius:999px;
+background:linear-gradient(90deg,var(--green),var(--gold),var(--danger));
+box-shadow:0 0 16px rgba(108,255,143,.22);
+}
+
+.project-card.sold-out{
+filter:saturate(.72);
+opacity:.76;
+}
+
+.project-card.sold-out .project-image::before{
+content:"SOLD OUT";
+position:absolute;
+inset:auto 18px 18px;
+z-index:5;
+height:44px;
+border-radius:14px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(255,77,77,.86);
+color:white;
+font-weight:900;
+letter-spacing:.8px;
+box-shadow:0 0 24px rgba(255,77,77,.25);
+}
+
+.qty-control button:disabled,
+.qty-input:disabled,
+.add-btn:disabled{
+opacity:.45;
+cursor:not-allowed;
+transform:none;
+box-shadow:none;
+}
+
+@media(max-width:980px){
+.dashboard-head,
+.dashboard-grid,
+.pie-wrap{
+grid-template-columns:1fr;
+}
+
+.dashboard-head{
+flex-direction:column;
+}
+
+.dashboard-kpis{
+min-width:0;
+}
+}
+
+@media(max-width:620px){
+.sales-dashboard{
+padding:18px;
+border-radius:26px;
+}
+
+.dashboard-kpis{
+flex-direction:column;
+}
+
+.ranking-item{
+grid-template-columns:42px 1fr;
+}
+
+.rank-sold{
+grid-column:2;
+text-align:left;
+}
+
+.pie-legend{
+grid-template-columns:1fr;
+}
+
+.candle-item{
+min-width:52px;
+}
+}
+
+
+/* =========================
+   Stock Guard Feedback
+========================= */
+
+.project-card.stock-warning{
+    animation:stockShake .48s ease both;
+    border-color:rgba(255,77,77,.55) !important;
+    box-shadow:0 0 38px rgba(255,77,77,.22), 0 26px 70px rgba(0,0,0,.36) !important;
+}
+
+@keyframes stockShake{
+    0%,100%{transform:translateX(0);}
+    20%{transform:translateX(-7px);}
+    40%{transform:translateX(7px);}
+    60%{transform:translateX(-5px);}
+    80%{transform:translateX(5px);}
+}
+
+.qty-control button:disabled,
+.qty-input:disabled,
+.add-btn:disabled{
+    opacity:.42;
+    cursor:not-allowed;
+    filter:grayscale(.35);
+}
+
+.add-btn:disabled:hover{
+    transform:none;
+    box-shadow:0 0 28px rgba(108,255,143,0.08);
+}

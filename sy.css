@@ -2102,3 +2102,245 @@ min-width:52px;
     transform:none;
     box-shadow:0 0 28px rgba(108,255,143,0.08);
 }
+/* =====================================================
+   MOBILE PATCH: Sales Share / Dashboard responsive fix
+   ใส่ท้ายไฟล์ CSS เพื่อให้กราฟและตัวเลขไม่หลุดบนมือถือ
+===================================================== */
+
+.pie-card,
+.pie-wrap,
+.pie-legend,
+.pie-legend-item,
+.legend-empty{
+min-width:0;
+max-width:100%;
+}
+
+.pie-legend-item{
+grid-template-columns:14px minmax(0,1fr) max-content;
+}
+
+.pie-legend-item strong{
+min-width:0;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
+
+.pie-legend-item em{
+display:block;
+min-width:26px;
+text-align:right;
+white-space:nowrap;
+}
+
+@media(max-width:760px){
+html,
+body{
+width:100%;
+max-width:100%;
+overflow-x:hidden;
+}
+
+.container{
+width:100%;
+max-width:100%;
+padding:66px 16px 88px;
+}
+
+.sales-dashboard{
+width:100%;
+max-width:100%;
+margin:26px 0 38px;
+padding:18px;
+border-radius:26px;
+overflow:hidden;
+}
+
+.dashboard-head{
+gap:16px;
+margin-bottom:18px;
+}
+
+.dashboard-head h2{
+font-size:clamp(26px,8vw,34px);
+letter-spacing:-.6px;
+}
+
+.dashboard-head p{
+font-size:14px;
+line-height:1.65;
+}
+
+.dashboard-kpis{
+width:100%;
+min-width:0;
+flex-direction:column;
+gap:10px;
+}
+
+.dashboard-kpis div{
+padding:15px;
+border-radius:18px;
+}
+
+.dashboard-kpis strong{
+font-size:28px;
+}
+
+.dashboard-grid{
+display:grid;
+grid-template-columns:minmax(0,1fr);
+gap:14px;
+width:100%;
+min-width:0;
+}
+
+.analytics-card{
+width:100%;
+min-width:0;
+padding:16px;
+border-radius:22px;
+overflow:hidden;
+}
+
+.analytics-title{
+gap:10px;
+margin-bottom:16px;
+}
+
+.analytics-title span{
+width:38px;
+height:38px;
+flex:0 0 38px;
+border-radius:14px;
+}
+
+.analytics-title h3{
+font-size:19px;
+line-height:1.25;
+min-width:0;
+}
+
+.pie-wrap{
+display:grid;
+grid-template-columns:minmax(0,1fr);
+gap:18px;
+justify-items:center;
+align-items:center;
+width:100%;
+}
+
+#salesPieChart{
+display:block;
+width:min(240px,72vw) !important;
+height:min(240px,72vw) !important;
+max-width:100% !important;
+max-height:none !important;
+margin:0 auto 4px;
+}
+
+.pie-legend{
+width:100%;
+display:grid;
+grid-template-columns:minmax(0,1fr);
+gap:10px;
+}
+
+.pie-legend-item,
+.legend-empty{
+width:100%;
+padding:11px 12px;
+border-radius:15px;
+}
+
+.pie-legend-item{
+grid-template-columns:14px minmax(0,1fr) minmax(28px,max-content);
+gap:10px;
+}
+
+.pie-legend-item span{
+width:14px;
+height:14px;
+flex:0 0 14px;
+}
+
+.pie-legend-item strong{
+font-size:12px;
+line-height:1.2;
+}
+
+.pie-legend-item em{
+font-size:17px;
+line-height:1;
+justify-self:end;
+}
+
+.cart-float{
+right:16px;
+bottom:18px;
+width:58px;
+height:58px;
+border-radius:20px;
+font-size:26px;
+z-index:4500;
+}
+
+.cart-badge{
+top:-7px;
+right:-7px;
+min-width:26px;
+height:26px;
+font-size:12px;
+}
+}
+
+@media(max-width:420px){
+.container{
+padding-left:12px;
+padding-right:12px;
+}
+
+.sales-dashboard{
+padding:14px;
+border-radius:22px;
+}
+
+.analytics-card{
+padding:14px;
+border-radius:20px;
+}
+
+#salesPieChart{
+width:min(218px,68vw) !important;
+height:min(218px,68vw) !important;
+}
+
+.pie-legend-item{
+padding:10px;
+gap:8px;
+grid-template-columns:12px minmax(0,1fr) minmax(24px,max-content);
+}
+
+.pie-legend-item span{
+width:12px;
+height:12px;
+}
+
+.pie-legend-item strong{
+font-size:11px;
+}
+
+.pie-legend-item em{
+font-size:16px;
+}
+
+.cart-float{
+right:12px;
+bottom:14px;
+width:54px;
+height:54px;
+border-radius:18px;
+font-size:24px;
+}
+}

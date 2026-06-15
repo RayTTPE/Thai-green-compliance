@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       form.reset();
-      window.location.href = "login.html";
+      window.location.href = "shop.html";
     }
     catch (err) {
       showAlert("error", "System Error", err.message || "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");

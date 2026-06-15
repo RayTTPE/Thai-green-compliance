@@ -1,134 +1,109 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("registerForm");
+  const registerBtn = document.getElementById("registerBtn");
+  const btnText = registerBtn?.querySelector(".btn-text");
 
-    const form = document.getElementById("registerForm");
+  const fullnameInput = document.getElementById("fullname");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const confirmPasswordInput = document.getElementById("confirm-password");
 
-    if(!form){
-        console.error("ไม่พบ form id='registerForm'");
-        return;
+  if (!form) return;
+
+  const showAlert = (icon, title, text) => {
+    Swal.fire({
+      icon,
+      title,
+      text,
+      confirmButtonColor: "#2e7d32",
+      background: "#fbfff9",
+      color: "#173326"
+    });
+  };
+
+  const setLoading = (isLoading) => {
+    if (!registerBtn) return;
+
+    registerBtn.disabled = isLoading;
+    registerBtn.classList.toggle("loading", isLoading);
+
+    if (btnText) {
+      btnText.textContent = isLoading ? "กำลังสมัครสมาชิก..." : "สมัครสมาชิก";
+    }
+  };
+
+  const isValidEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const fullname = fullnameInput.value.trim();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
+
+    if (!fullname || !email || !password || !confirmPassword) {
+      showAlert("warning", "กรอกข้อมูลไม่ครบ", "กรุณากรอกชื่อ อีเมล รหัสผ่าน และยืนยันรหัสผ่านให้ครบถ้วน");
+      return;
     }
 
-    form.addEventListener("submit", async (event) => {
+    if (!isValidEmail(email)) {
+      showAlert("warning", "รูปแบบอีเมลไม่ถูกต้อง", "กรุณาตรวจสอบอีเมลอีกครั้ง เช่น example@email.com");
+      return;
+    }
 
-        event.preventDefault();
+    if (password.length < 6) {
+      showAlert("warning", "รหัสผ่านสั้นเกินไป", "กรุณาตั้งรหัสผ่านอย่างน้อย 6 ตัวอักษร");
+      return;
+    }
 
-        const fullname =
-        document.getElementById("fullname").value.trim();
+    if (password !== confirmPassword) {
+      showAlert("error", "รหัสผ่านไม่ตรงกัน", "กรุณากรอกรหัสผ่านและยืนยันรหัสผ่านให้ตรงกัน");
+      return;
+    }
 
-        const email =
-        document.getElementById("email").value.trim().toLowerCase();
+    if (typeof supabaseClient === "undefined") {
+      showAlert("error", "ไม่พบการเชื่อมต่อ Supabase", "กรุณาตรวจสอบไฟล์ supabase.js ว่าเชื่อมต่อถูกต้องแล้ว");
+      return;
+    }
 
-        const password =
-        document.getElementById("password").value;
+    setLoading(true);
 
-        const confirmPassword =
-        document.getElementById("confirm-password").value;
-
-        const registerBtn =
-        form.querySelector("button[type='submit']");
-
-        if(!fullname || !email || !password || !confirmPassword){
-
-            Swal.fire({
-                icon:"warning",
-                title:"กรอกข้อมูลไม่ครบ",
-                text:"กรุณากรอกชื่อ อีเมล และรหัสผ่านให้ครบ"
-            });
-
-            return;
+    try {
+      const { error } = await supabaseClient.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: fullname
+          }
         }
+      });
 
-        if(password.length < 6){
+      if (error) {
+        showAlert("error", "สมัครสมาชิกไม่สำเร็จ", error.message);
+        return;
+      }
 
-            Swal.fire({
-                icon:"warning",
-                title:"รหัสผ่านสั้นเกินไป",
-                text:"กรุณาใช้รหัสผ่านอย่างน้อย 6 ตัวอักษร"
-            });
+      await Swal.fire({
+        icon: "success",
+        title: "สมัครสมาชิกสำเร็จ",
+        text: "กรุณาตรวจสอบอีเมลเพื่อยืนยันบัญชี แล้วกลับมาเข้าสู่ระบบอีกครั้ง",
+        confirmButtonColor: "#2e7d32",
+        background: "#fbfff9",
+        color: "#173326"
+      });
 
-            return;
-        }
-
-        if(password !== confirmPassword){
-
-            Swal.fire({
-                icon:"warning",
-                title:"รหัสผ่านไม่ตรงกัน",
-                text:"กรุณายืนยันรหัสผ่านให้ตรงกัน"
-            });
-
-            return;
-        }
-
-        if(typeof supabaseClient === "undefined"){
-
-            Swal.fire({
-                icon:"error",
-                title:"ไม่พบ Supabase",
-                text:"กรุณาตรวจสอบว่าไฟล์ supabase.js ถูกโหลดก่อน register.js"
-            });
-
-            return;
-        }
-
-        try{
-
-            registerBtn.disabled = true;
-            registerBtn.textContent = "กำลังสมัคร...";
-
-            const { data, error } =
-            await supabaseClient.auth.signUp({
-                email:email,
-                password:password,
-                options:{
-                    data:{
-                        fullname:fullname
-                    }
-                }
-            });
-
-            if(error){
-
-                let message = error.message;
-
-                if(message.toLowerCase().includes("email rate limit") || message.toLowerCase().includes("rate limit")){
-                    message = "ระบบส่งอีเมลยืนยันเกินลิมิตแล้ว กรุณารอสักพัก หรือปิด Confirm email ตอนทดสอบ";
-                }
-
-                Swal.fire({
-                    icon:"error",
-                    title:"สมัครสมาชิกไม่สำเร็จ",
-                    text:message
-                });
-
-                return;
-            }
-
-            Swal.fire({
-                icon:"success",
-                title:"สมัครสมาชิกสำเร็จ",
-                text:"สามารถกลับไปล็อคอินที่หน้าร้านค้าได้เลย",
-                confirmButtonText:"ไปหน้าร้านค้า"
-            }).then(() => {
-                window.location.href = "shop.html";
-            });
-
-        }
-        catch(err){
-
-            Swal.fire({
-                icon:"error",
-                title:"System Error",
-                text:err.message
-            });
-
-        }
-        finally{
-
-            registerBtn.disabled = false;
-            registerBtn.textContent = "Register";
-
-        }
-
-    });
-
+      form.reset();
+      window.location.href = "login.html";
+    }
+    catch (err) {
+      showAlert("error", "System Error", err.message || "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
+    }
+    finally {
+      setLoading(false);
+    }
+  });
 });

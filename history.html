@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order History | Thai Green Compliance</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="payment.css">
+
+<style>
+.history-page{width:min(1240px,100%);margin:0 auto;padding:54px 6% 90px}.history-hero{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;padding:30px 0 38px}.history-hero h1{font-size:clamp(42px,6vw,76px);line-height:.97;letter-spacing:-2px;margin-bottom:16px}.history-hero p{max-width:720px;color:#b7cbbf;line-height:1.8}.account-pill{display:flex;flex-direction:column;gap:6px;padding:16px 18px;border-radius:22px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08);min-width:min(100%,320px)}.account-pill span{color:#9fb5a9;font-size:13px}.account-pill strong{color:#6CFF8F;word-break:break-word}.history-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}.history-stats{display:flex;gap:12px;flex-wrap:wrap}.history-stat{padding:14px 16px;border-radius:18px;background:rgba(108,255,143,.08);border:1px solid rgba(142,255,190,.18)}.history-stat span{display:block;color:#9fb5a9;font-size:12px;margin-bottom:4px}.history-stat strong{font-size:22px;color:#f4fff8}.order-history-list{display:grid;gap:18px}.history-card{position:relative;padding:24px;border-radius:28px;background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.035));border:1px solid rgba(255,255,255,.08);box-shadow:0 30px 80px rgba(0,0,0,.32);overflow:hidden}.history-card::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:linear-gradient(180deg,#6CFF8F,transparent)}.history-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px}.history-id{display:grid;gap:5px}.history-id span{color:#9fb5a9;font-size:12px;text-transform:uppercase;letter-spacing:.12em}.history-id strong{font-size:20px;color:white}.status-group{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.status-badge{padding:8px 12px;border-radius:999px;border:1px solid rgba(142,255,190,.22);background:rgba(108,255,143,.08);color:#bfffd0;font-size:12px;font-weight:800}.history-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.55fr);gap:16px}.history-box{padding:16px;border-radius:20px;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.07)}.history-box h3{color:#6CFF8F;margin-bottom:10px;font-size:16px}.history-box p{color:#c4d8ca;line-height:1.75;margin-bottom:5px}.product-lines{display:grid;gap:8px}.product-chip{padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.055);color:#f4fff8;border:1px solid rgba(255,255,255,.07)}.total-line{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08)}.total-line span{color:#9fb5a9}.total-line strong{font-size:24px;color:#6CFF8F}.empty-history,.loading-history{padding:44px 24px;text-align:center;border-radius:30px;background:rgba(255,255,255,.045);border:1px dashed rgba(142,255,190,.2);color:#c4d8ca}.empty-history h2,.loading-history h2{color:white;margin-bottom:10px}.refresh-btn{display:inline-flex;align-items:center;justify-content:center;border:none;border-radius:16px;padding:13px 16px;font-weight:900;cursor:pointer;background:linear-gradient(135deg,#6CFF8F,#d8ffe0);color:#031008;box-shadow:0 0 30px rgba(108,255,143,.18);transition:.25s}.refresh-btn:hover{transform:translateY(-2px)}.refresh-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}@media(max-width:860px){.history-hero{flex-direction:column;align-items:flex-start}.history-grid{grid-template-columns:1fr}.history-head{flex-direction:column}.status-group{justify-content:flex-start}.history-page{padding:40px 5% 70px}}
+</style>
+</head>
+
+<body>
+<div class="eco-bg eco-bg-one"></div>
+<div class="eco-bg eco-bg-two"></div>
+<div class="grid-overlay"></div>
+
+<header class="order-navbar">
+    <a href="shop.html" class="brand-link">
+        <span class="brand-mark"><img src="./รูป/logo.png" alt="Thai Green Compliance"></span>
+        <span class="brand-text">Thai Green Compliance</span>
+    </a>
+    <nav class="mini-nav">
+        <a href="shop.html">Store</a>
+        <a href="cart.html">Cart</a>
+        <a href="#" id="logoutBtn">Logout</a>
+    </nav>
+</header>
+
+<main class="history-page">
+    <section class="history-hero">
+        <div>
+            <span class="hero-kicker">Customer Order History</span>
+            <h1>ประวัติการสั่งซื้อ</h1>
+        </div>
+
+        <div class="account-pill">
+            <span>Account</span>
+            <strong id="accountEmail">กำลังตรวจสอบ...</strong>
+        </div>
+    </section>
+
+    <section class="pay-card">
+        <div class="history-toolbar">
+            <div class="history-stats">
+                <div class="history-stat">
+                    <span>Orders</span>
+                    <strong id="orderCount">0</strong>
+                </div>
+                <div class="history-stat">
+                    <span>Total Spent</span>
+                    <strong id="totalSpent">0</strong>
+                </div>
+            </div>
+            <button class="refresh-btn" type="button" id="refreshBtn">Refresh</button>
+        </div>
+
+        <div id="historyList" class="order-history-list">
+            <div class="loading-history">
+                <h2>กำลังโหลดประวัติ...</h2>
+                <p>กรุณารอสักครู่</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+<script>
+const accountEmail = document.getElementById("accountEmail");
+const historyList = document.getElementById("historyList");
+const orderCount = document.getElementById("orderCount");
+const totalSpent = document.getElementById("totalSpent");
+const refreshBtn = document.getElementById("refreshBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+let currentUser = null;
+
+function escapeHTML(value){
+    return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function showToast(message){
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(() => toast.classList.remove("show"),2600);
+}
+
+function formatMoney(value){
+    const num = Number(value) || 0;
+    return num.toLocaleString("th-TH",{
+        minimumFractionDigits: num % 1 === 0 ? 0 : 2,
+        maximumFractionDigits: 2
+    });
+}
+
+function formatDate(value){
+    if(!value){
+        return "ไม่พบวันที่";
+    }
+
+    const date = new Date(value);
+
+    if(Number.isNaN(date.getTime())){
+        return "ไม่พบวันที่";
+    }
+
+    return date.toLocaleString("th-TH",{
+        dateStyle:"medium",
+        timeStyle:"short"
+    });
+}
+
+function getOrderShortId(id){
+    if(!id){
+        return "-";
+    }
+
+    return String(id).slice(0,8).toUpperCase();
+}
+
+function productItemsHTML(products){
+    if(!products){
+        return `<div class="product-chip">ไม่พบรายการสินค้า</div>`;
+    }
+
+    if(Array.isArray(products)){
+        return products.map((item,index)=>{
+            const name = item.name || `สินค้า ${item.id || index + 1}`;
+            const qty = item.qty || item.quantity || "";
+            const price = Number(item.price) || 0;
+            const subtotal = price && qty ? price * Number(qty) : 0;
+            const line = `${name}${qty ? ` / ${qty} ชิ้น` : ""}${subtotal ? ` · ${formatMoney(subtotal)} บาท` : ""}`;
+            return `<div class="product-chip">${escapeHTML(line)}</div>`;
+        }).join("");
+    }
+
+    if(typeof products === "string"){
+        return products
+        .split(",")
+        .map(item => item.trim())
+        .filter(Boolean)
+        .map(item => `<div class="product-chip">${escapeHTML(item)}</div>`)
+        .join("") || `<div class="product-chip">${escapeHTML(products)}</div>`;
+    }
+
+    return `<div class="product-chip">${escapeHTML(JSON.stringify(products))}</div>`;
+}
+
+function renderEmpty(){
+    historyList.innerHTML = `
+        <div class="empty-history">
+            <h2>ยังไม่มีประวัติการสั่งซื้อ</h2>
+            <p>เมื่อสั่งซื้อสำเร็จ ออเดอร์จะแสดงในหน้านี้อัตโนมัติ</p>
+        </div>
+    `;
+}
+
+function renderOrders(orders){
+    orderCount.textContent = orders.length.toLocaleString("th-TH");
+
+    const sum = orders.reduce((total,order)=>{
+        return total + (Number(order.total_price) || 0);
+    },0);
+
+    totalSpent.textContent = `${formatMoney(sum)} บาท`;
+
+    if(orders.length === 0){
+        renderEmpty();
+        return;
+    }
+
+    historyList.innerHTML = orders.map(order => {
+        return `
+        <article class="history-card">
+            <div class="history-head">
+                <div class="history-id">
+                    <span>Order ID</span>
+                    <strong>#${escapeHTML(getOrderShortId(order.id))}</strong>
+                    <p>${escapeHTML(formatDate(order.created_at))}</p>
+                </div>
+                <div class="status-group">
+                    <span class="status-badge">Payment: ${escapeHTML(order.payment_status || "-")}</span>
+                    <span class="status-badge">Order: ${escapeHTML(order.order_status || "-")}</span>
+                </div>
+            </div>
+
+            <div class="history-grid">
+                <div class="history-box">
+                    <h3>รายการสินค้า</h3>
+                    <div class="product-lines">
+                        ${productItemsHTML(order.products)}
+                    </div>
+                    <div class="total-line">
+                        <span>ยอดรวม</span>
+                        <strong>${formatMoney(order.total_price)} บาท</strong>
+                    </div>
+                </div>
+
+                <div class="history-box">
+                    <h3>ข้อมูลจัดส่ง</h3>
+                    <p><strong>ผู้รับ:</strong> ${escapeHTML(order.receiver_name || "-")}</p>
+                    <p><strong>โทร:</strong> ${escapeHTML(order.receiver_phone || "-")}</p>
+                    <p><strong>ที่อยู่:</strong> ${escapeHTML(order.receiver_address || "-")}</p>
+                </div>
+            </div>
+        </article>
+        `;
+    }).join("");
+}
+
+async function loadHistory(){
+    if(!currentUser){
+        return;
+    }
+
+    refreshBtn.disabled = true;
+    refreshBtn.textContent = "Loading...";
+
+    const { data, error } = await supabaseClient
+    .from("orders")
+    .select("id,user_email,receiver_name,receiver_phone,receiver_address,products,total_price,payment_status,order_status,created_at")
+    .eq("user_email", currentUser.email)
+    .order("created_at",{ ascending:false });
+
+    refreshBtn.disabled = false;
+    refreshBtn.textContent = "Refresh";
+
+    if(error){
+        console.error(error);
+        historyList.innerHTML = `
+            <div class="empty-history">
+                <h2>โหลดประวัติไม่สำเร็จ</h2>
+                <p>${escapeHTML(error.message)}</p>
+            </div>
+        `;
+        return;
+    }
+
+    renderOrders(data || []);
+}
+
+async function guardHistory(){
+    if(typeof supabaseClient === "undefined"){
+        alert("ไม่พบการเชื่อมต่อ Supabase");
+        window.location.href = "shop.html";
+        return;
+    }
+
+    const { data:{ user }, error } = await supabaseClient.auth.getUser();
+
+    if(error){
+        console.error(error);
+    }
+
+    if(!user){
+        alert("กรุณา Login ก่อนดูประวัติการสั่งซื้อ");
+        window.location.href = "shop.html";
+        return;
+    }
+
+    currentUser = user;
+    accountEmail.textContent = user.email;
+
+    await loadHistory();
+}
+
+refreshBtn.addEventListener("click",loadHistory);
+
+logoutBtn.addEventListener("click",async (event)=>{
+    event.preventDefault();
+    await supabaseClient.auth.signOut();
+    showToast("Logout สำเร็จ");
+    setTimeout(()=>{
+        window.location.href = "shop.html";
+    },600);
+});
+
+guardHistory();
+</script>
+
+</body>
+</html>

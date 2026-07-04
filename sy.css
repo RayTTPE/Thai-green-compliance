@@ -2345,7 +2345,7 @@ font-size:24px;
 }
 }
 
-/* =========================
+/* ========================= 
    FLOATING HISTORY BUTTON
 ========================= */
 
@@ -2367,8 +2367,7 @@ font-size:24px;
     text-decoration:none;
     border-radius:26px;
 
-    background:
-        linear-gradient(135deg, rgba(108,255,143,.98), rgba(216,255,224,.96));
+    background:linear-gradient(135deg, rgba(108,255,143,.98), rgba(216,255,224,.96));
     color:#031008;
 
     border:1px solid rgba(255,255,255,.55);
@@ -2378,17 +2377,13 @@ font-size:24px;
 
     font-weight:900;
     transition:.28s ease;
+    overflow:hidden;
 }
 
+/* ปิดแสงเลื่อน */
 .history-float::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    border-radius:inherit;
-    background:linear-gradient(120deg, transparent, rgba(255,255,255,.45), transparent);
-    transform:translateX(-120%);
-    transition:.6s ease;
-    pointer-events:none;
+    display:none;
+    content:none;
 }
 
 .history-float:hover{
@@ -2396,10 +2391,6 @@ font-size:24px;
     box-shadow:
         0 24px 58px rgba(0,0,0,.42),
         0 0 46px rgba(108,255,143,.52);
-}
-
-.history-float:hover::before{
-    transform:translateX(120%);
 }
 
 .history-icon{
